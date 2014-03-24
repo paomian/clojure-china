@@ -9,6 +9,7 @@
                  [lib-noir "0.8.1"] ;A set of utilities and helpers for building ring apps.
                  [org.jasypt/jasypt "1.7"] ;JAVA加密包
                  [hiccup "1.0.5"]
+                 [ring/ring-core "1.2.2"] ;ring-core - essential functions for handling parameters, cookies and more
                  ]
   :plugins [[lein-ring "0.8.10"]]
   :ring {:handler clojure-china.handler/app}

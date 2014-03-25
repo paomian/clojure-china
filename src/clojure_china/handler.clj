@@ -4,7 +4,7 @@
             [compojure.route :as route]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello Clojure")
+  (GET "/" [] "welcome to clojure-china")
   (route/resources "/")
   (route/not-found "Not Found"))
 

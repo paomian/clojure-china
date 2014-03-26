@@ -10,8 +10,8 @@
   [ring.util.response           :as response]
   [noir.cookies                 :as cookies]
   [noir.session                 :as session]))
-(defn dologin [user pwd]
-  (let [result (find-one-as-map "user" {:user user})]
+(defn dologin [user pwd] ;;这是被废弃的函数，只是用来作为新验证函数的参
+  let [result (find-one-as-map "user" {:user user})]
     (if result
       (if (and
             (.checkPassword (StrongPasswordEncryptor.) pwd  (result :pwd))

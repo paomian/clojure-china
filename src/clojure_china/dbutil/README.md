@@ -3,10 +3,6 @@
 - In order to protect the database password, we omitted a file called dbconn.clj
 - It is look like this
 
-###Ation
-
-- Befor you run the clojure-china,you must run the script cc_user.sql to init databases; 
-
 ```clojure
 (ns clojure-china.dbconn)
 
@@ -21,3 +17,9 @@
    :user db-user
    :password "your db password"})
 ```
+
+###Ation
+
+- Befor you run the clojure-china,you must run the script cc_user.sql to init databases; 
+
+

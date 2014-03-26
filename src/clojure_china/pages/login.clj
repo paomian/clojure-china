@@ -1,15 +1,11 @@
 (ns clojure-china.login
-(:use [compojure.core]
-      [monger.operators]
-      [monger.collection       :only [find-one-as-map update]]
-      [bank.template           :only [template]]
-      [bank.util]
-      [hiccup.form])
-(:import [org.jasypt.util.password StrongPasswordEncryptor])
-(:require
-  [ring.util.response           :as response]
-  [noir.cookies                 :as cookies]
-  [noir.session                 :as session]))
+  (:require [compojure.core :refer :all]
+            [hiccup.form :refer :all]
+            [ring.util.response :as response]
+            [noir.cookies :as cookies]
+            [noir.session :as session])
+  (:import [org.jasypt.util.password StrongPasswordEncryptor]))
+
 (defn dologin [user pwd]
   (let [result (find-one-as-map "user" {:user user})]
     (if result
@@ -29,6 +25,7 @@
     (log-logout (session/get :user))
     (session/clear!)
     (response/redirect "/")))
+
 (defn bye []
   (let [result (find-one-as-map "user" (:user (session/get :user)))]
     (do 

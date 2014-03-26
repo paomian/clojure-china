@@ -1,7 +1,7 @@
 #Clojure-china
 
 - This is the source code of Clojure China website.
-- **Please look the branch which name is development**
+- **Please look at the branch whose name is development**
 
 ## Prerequisites
 

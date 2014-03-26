@@ -10,9 +10,10 @@
                  [org.jasypt/jasypt "1.7"] ;JAVA加密包
                  [hiccup "1.0.5"]
                  [ring/ring-core "1.2.2"] ;ring-core - essential functions for handling parameters, cookies and more
+                 [hickory "0.5.3"]
                  ]
   :plugins [[lein-ring "0.8.10"]]
-  :ring {:handler clojure-china.handler/app}
+  :ring {:handler clojure-china.control.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]]}})

@@ -10,3 +10,4 @@ pom.xml.asc
 /.nrepl-port
 dbconn.clj
 /resources
+tmp.html

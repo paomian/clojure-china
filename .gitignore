@@ -10,6 +10,6 @@ pom.xml.asc
 /.nrepl-port
 /*.iml
 /.idea
-# resources
-tmp.html
 dbconn.clj
+/resources
+tmp.html

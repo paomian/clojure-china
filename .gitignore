@@ -8,5 +8,8 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
-*.iml
-.idea/
+/*.iml
+/.idea
+# resources
+tmp.html
+dbconn.clj

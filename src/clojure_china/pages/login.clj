@@ -29,6 +29,7 @@
     (log-logout (session/get :user))
     (session/clear!)
     (response/redirect "/")))
+
 (defn bye []
   (let [result (find-one-as-map "user" (:user (session/get :user)))]
     (do 

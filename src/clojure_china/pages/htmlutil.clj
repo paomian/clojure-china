@@ -1,6 +1,7 @@
 (ns clojure-china.pages.htmlutil
-  (:use [hiccup core page])
-  (:require [noir.session :as session]))
+  (:require [noir.session :as session]
+            [hiccup.core :refer :all]
+            [hiccup.page :refer :all]))
 ;;页面模板
 (defn head-template [code]
   (let [user (session/get :user)]

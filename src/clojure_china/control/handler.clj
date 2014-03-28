@@ -3,10 +3,11 @@
             [compojure.route :as route]
             [noir.session :as session]
             [compojure.core :refer :all]
-            [clojure-china.pages.index :refer [index register]]))
+            [clojure-china.pages.index :refer [index]]))
 
 (defroutes app-routes
-           (GET "/" [] (index nil))
+           (GET "/" [] (index))
+           (GET "/register" [] (register-page nil))
            (POST "/register" {params :params} (register params))
            (route/resources "/")
            (route/not-found "Not Found"))

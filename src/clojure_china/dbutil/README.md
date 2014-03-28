@@ -17,3 +17,9 @@
    :user db-user
    :password "your db password"})
 ```
+
+###Ation
+
+- Befor you run the clojure-china,you must run the script cc_user.sql to init databases; 
+
+

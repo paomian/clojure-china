@@ -1,13 +1,17 @@
 (ns clojure-china.login
-  (:require [compojure.core :refer :all]
-            [hiccup.form :refer :all]
-            [ring.util.response :as response]
-            [noir.cookies :as cookies]
-            [noir.session :as session])
-  (:import [org.jasypt.util.password StrongPasswordEncryptor]))
-
-(defn dologin [user pwd]
-  (let [result (find-one-as-map "user" {:user user})]
+(:use [compojure.core]
+      [monger.operators]
+      [monger.collection       :only [find-one-as-map update]]
+      [bank.template           :only [template]]
+      [bank.util]
+      [hiccup.form])
+(:import [org.jasypt.util.password StrongPasswordEncryptor])
+(:require
+  [ring.util.response           :as response]
+  [noir.cookies                 :as cookies]
+  [noir.session                 :as session]))
+(defn dologin [user pwd] ;;这是被废弃的函数，只是用来作为新验证函数的参
+  let [result (find-one-as-map "user" {:user user})]
     (if result
       (if (and
             (.checkPassword (StrongPasswordEncryptor.) pwd  (result :pwd))

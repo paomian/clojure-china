@@ -1,7 +1,7 @@
 (ns clojure-china.pages.htmlutil
-  (:use [hiccup core page])
   (:require [noir.session :as session]
-            [hiccup.page  :refer [html5 include-css include-js]]))
+            [hiccup.core :refer :all]
+            [hiccup.page :refer :all]))
 ;;页面模板
 (defn head-template [code]
   (let [user (session/get :user)]

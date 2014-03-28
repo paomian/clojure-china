@@ -1,12 +1,13 @@
 (ns clojure-china.control.handler
-  (:use [compojure.core]
-        [clojure-china.pages.index   :only [index]])
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-            [noir.session :as session]))
+            [noir.session :as session]
+            [compojure.core :refer :all]
+            [clojure-china.pages.index :refer [index register]]))
 
 (defroutes app-routes
-           (GET "/" [] (index))
+           (GET "/" [] (index nil))
+           (POST "/register" {params :params} (register params))
            (route/resources "/")
            (route/not-found "Not Found"))
 

@@ -12,7 +12,7 @@
 (def db-port "your db port")
 (def db-conn
   {:classname "org.postgresql.Driver"
-   :subprotocol "postgres"
+   :subprotocol "postgresql"
    :subname (str "//" db-host ":" db-port "/" db-name)
    :user db-user
    :password "your db password"})

@@ -1,6 +1,17 @@
 ;;对于用户的个人信息的一起列操作方法
-(ns clojure-china.dbutil.dbutil
+(ns clojure-china.dbutil.userdbutil
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure-china.dbutil.dbconn :refer [db-conn]]))
+            [clojure-china.dbutil.dbconn :refer [db-conn]]
+            [clj-time.local :as l])
+  (:import  [java.sql Timestamp]
+            [java.util Date]))
 ;;插入数据
-(defn userinsert! [table db])
+(defn insert-user!
+  [username encrypted-password email is-admin?]
+  (jdbc/insert!
+    db-conn :cc_user
+    {:username username
+     :password encrypted-password
+     :email email
+     :is_admin is-admin?
+     :register_time (Timestamp. (.getTime (Date.)))}))

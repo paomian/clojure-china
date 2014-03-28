@@ -12,6 +12,6 @@ pom.xml.asc
 dbconn.clj
 /resources
 tmp.html
-/.idea/
+/.idea
 login.clj
-register.clj	
+register.clj

@@ -18,8 +18,8 @@
 (defn user-name-query [username]
   (jdbc/query db/db-spec :cc_user
               ["select * from cc_user where username = ?" username]))
-;;插入数据
-(defn insert-user!
+;;新建用户
+(defn user-insert!
   [username encrypted-password email is-admin?]
   (jdbc/insert!
     db-spec :cc_user
@@ -28,3 +28,7 @@
      :email email
      :is_admin is-admin?
      :register_time (Timestamp. (.getTime (Date.)))}))
+;;更新用户最后登录时间
+(defn user-update-lastlogintime
+  [userid]
+  jdbc/execute! db/db-spec ["UPDATE cc_user SET last_login_time = NOW() WHERE id = ?" userid])

@@ -1,7 +1,35 @@
 (ns clojure-china.pages.htmlutil
   (:require [noir.session :as session]
             [hiccup.core :refer :all]
-            [hiccup.page :refer :all]))
+            [hiccup.page :refer :all]
+            [ring.util.response :as response]))
+;;控制页面flash的显示
+(defn err-box [msg &code]
+  [:div.alert.alert-error
+   [:button {:type "button", :class "close", :data-dismiss "alert"} "&times;"] msg
+   code])
+(defn suc-box [msg &code]
+  [:div.alert.alert-success
+   [:button {:type "button", :class "close", :data-dismiss "alert"} "&times;"] msg
+   code])
+(defn msg-box [msg &code]
+  [:div.alert.alert-info
+   [:button {:type "button", :class "close", :data-dismiss "alert"} "&times;"] msg
+   code])
+
+(defn flash-err [url msg &code]
+  (do
+    (session/flash-put! :error (err-box msg code))
+    (response/redirect url)))
+(defn flash-suc [url msg &code]
+  (do
+    (session/flash-put! :success (suc-box msg code))
+    (response/redirect url)))
+(defn flash-msg [url msg &code]
+  (do
+    (session/flash-put! :success (msg-box msg code))
+    (response/redirect url)))
+
 ;;页面模板
 (defn head-template [code]
   (let [user (session/get :user)]

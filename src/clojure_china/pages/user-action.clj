@@ -3,10 +3,12 @@
             [hiccup.core :refer :all]
             [hiccup.page :refer :all]
             [clojure-china.pages.htmlutil :refer [def-page]]
-            [clojure-china.control.register :refer [register-user]]
-            [clojure-china.pages.register :refer [register-modal]]))
+            #_[clojure-china.control.register :refer [register-user]]
+            #_[clojure-china.pages.register :refer [register-modal]]))
+(def register-form
+  [])
 
-(def-page register-success-page
+#_(def-page register-success-page
           []
           [:div
            register-modal
@@ -19,9 +21,6 @@
             [:h1 {} "Jumbotron heading"]
             [:p {:class "lead"} "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."]
             [:button {:class "btn btn-lg btn-success", :data-toggle "modal" :data-target "#register"} "Sign up today"]]])
-(def-page register-page
-          []
-          register-form)
 
 (def register-form
   [:form {:role "form" :action "/register" :method "post"}

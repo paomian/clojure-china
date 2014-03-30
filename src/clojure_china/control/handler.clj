@@ -7,8 +7,8 @@
 
 (defroutes app-routes
            (GET "/" [] (index))
-           (GET "/register" [] (register-page nil))
-           (POST "/register" {params :params} (register params))
+           ;;(GET "/register" [] (user-register))
+           ;;(POST "/register" {params :params} (register params))
            (route/resources "/")
            (route/not-found "Not Found"))
 

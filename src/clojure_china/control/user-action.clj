@@ -2,21 +2,44 @@
 (ns clojure-china.control.user-action
   (:require [clojure-china.dbutil.userdbutil    :as dbutil]
             [noir.session                       :as session]
-            [ring.util.response                 :as response])
+            [ring.util.response                 :as response]
+            [clojure-china.pages.htmlutil       :as html])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
+(defn encryptor [pwd]
+  (.encryptPassword (StrongPasswordEncryptor.) pwd))
 ;;用户登录
 (defn user-longin [user pwd]
-  (let [userinfo ((dbutil/user-name-query user))]
-    (if ())))
+  (let [userinfo (first (dbutil/user-name-query user))]
+    (if
+      (.checkPassword (StrongPasswordEncryptor.) pwd  (:password userinfo))
+      (do
+        (user-update-lastlogintime (:id userinfo))
+        (session/put! :user (:id userinfo))
+        (response/redirect "/"))
+      (do
+        (html/flash-err "登录失败，用户名或密码不正确！" ""))))) ;;在此加入flash机制
 
 ;;用户注册
-(defn register
+#_(defn register
     [{:keys [username password email] :as params}]
     (let [encrypter (StrongPasswordEncryptor.)]
-          (dbutil/insert-user! username (.encryptPassword encrypter password) email true)))
+      (dbutil/user-insert! username (.encryptPassword encrypter password) email true)))
 
+#_(defn user-register
+    [params]
+    (do
+      (register-user params)
+      (index :register-successful)))
 (defn user-register
-  [params]
+  [username password rpassword email]
+  (if
+    (= password rpassword)
+    (do
+      (future (dbutil/user-insert! username (encryptor pwd) email) false)
+      (html/flash-suc "/register"  "注册成功！点击" [:a.alert-link "登录"]))
+    (html/flash-err "/register" "注册失败！")))
+(defn user-logout
   (do
-    (register-user params)
-    (index :register-successful)))
+    (session/clear!)
+    (flash-msg "/" "退出成功！"))
+  )

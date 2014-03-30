@@ -30,6 +30,7 @@
     (do
       (register-user params)
       (index :register-successful)))
+
 (defn user-register
   [username password rpassword email]
   (if
@@ -38,8 +39,8 @@
       (future (dbutil/user-insert! username (encryptor pwd) email) false)
       (html/flash-suc "/register"  "注册成功！点击" [:a.alert-link "登录"]))
     (html/flash-err "/register" "注册失败！")))
+
 (defn user-logout
   (do
     (session/clear!)
-    (flash-msg "/" "退出成功！"))
-  )
+    (flash-msg "/" "退出成功！")))

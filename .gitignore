@@ -13,5 +13,4 @@ dbconn.clj
 /resources
 tmp.html
 /.idea
-login.clj
-register.clj
+mytmp

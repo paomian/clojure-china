@@ -13,7 +13,7 @@
     (if
       (.checkPassword (StrongPasswordEncryptor.) pwd  (:password userinfo))
       (do
-        (user-update-lastlogintime (:id userinfo))
+        (dbutil/user-update-lastlogintime (:id userinfo))
         (session/put! :user (:id userinfo))
         (response/redirect "/"))
       (do
@@ -25,7 +25,7 @@
   (if
     (= password rpassword)
     (do
-      (future (dbutil/user-insert! username (encryptor pwd) email false))
+      (future (dbutil/user-insert! username (encryptor password) email false))
       (html/flash-suc "/register"  "注册成功！点击" [:a.alert-link {:href "#"} "登录"]))
     (html/flash-err "/register" "注册失败！")))
 

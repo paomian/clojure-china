@@ -3,12 +3,14 @@
             [compojure.route :as route]
             [noir.session :as session]
             [compojure.core :refer :all]
-            [clojure-china.pages.index :refer [index]]))
+            [clojure-china.pages.index :refer [index]]
+            [clojure-china.pages.user-action :refer [register-page]]
+            [clojure-china.control.user-action :refer :all]))
 
 (defroutes app-routes
            (GET "/" [] (index))
-           (GET "/register" [] (user-register))
-           (POST "/register" [username password rpassword email] (register username password rpassword email))
+           (GET "/register" [] (register-page))
+           (POST "/register" [username password rpassword email] (user-register username password rpassword email))
            (route/resources "/")
            (route/not-found "Not Found"))
 

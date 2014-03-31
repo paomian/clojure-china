@@ -55,7 +55,7 @@
                                           ["Wiki" "#" ""]
                                           ["会员" "#" ""])]
               [:li [:a {:class classes :href url} content]])]]]]
-        code
+        [:div.container code]
         (include-js "http://clojure-china.qiniudn.com/jquery.min.js")
         (include-js "http://clojure-china.qiniudn.com/bootstrap.min.js")
         ]])))

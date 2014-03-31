@@ -20,24 +20,13 @@
         (html/flash-err "登录失败，用户名或密码不正确！" ""))))) ;;在此加入flash机制
 
 ;;用户注册
-#_(defn register
-    [{:keys [username password email] :as params}]
-    (let [encrypter (StrongPasswordEncryptor.)]
-      (dbutil/user-insert! username (.encryptPassword encrypter password) email true)))
-
-#_(defn user-register
-    [params]
-    (do
-      (register-user params)
-      (index :register-successful)))
-
 (defn user-register
   [username password rpassword email]
   (if
     (= password rpassword)
     (do
-      (future (dbutil/user-insert! username (encryptor pwd) email) false)
-      (html/flash-suc "/register"  "注册成功！点击" [:a.alert-link "登录"]))
+      (future (dbutil/user-insert! username (encryptor pwd) email false))
+      (html/flash-suc "/register"  "注册成功！点击" [:a.alert-link {:href "#"} "登录"]))
     (html/flash-err "/register" "注册失败！")))
 
 (defn user-logout

@@ -6,21 +6,41 @@
             #_[clojure-china.control.register :refer [register-user]]
             #_[clojure-china.pages.register :refer [register-modal]]))
 (def register-form
-  [])
+  [:form.form-horizontal {:method "POST" :action "/register"}
+   [:table
+    [:tr
+     [:td (label :username "Username")]
+     [:td [:input.form-control#user {:type "text" :placeholder "Username"}]]]
+    [:tr
+     [:td (label :password "Password")]
+     [:td [:input.form-control#pwd {:type "password" :placeholder "Password"}]]]
+    [:tr
+     [:td (label :r-password "Repeat Password")]
+     [:td [:input.form-control#r-pwd {:type "password" :placeholder "Repeat Password"}]]]
+    [:tr
+     [:td (label :email "Email")]
+     [:td [:input.form-control#email {:type "text" :placeholder "Email"}]]]
+    [:tr
+     [:td]
+     [:td [:button.btn.btn-primary {:type "submit"} "Register"]]]]])
+(def-page register-page []
+          (session/flash-get :error)
+          (session/flash-get :success)
+          register-form)
 
 #_(def-page register-success-page
-          []
-          [:div
-           register-modal
-           #_(if (= alert-type :register-successful)
-             [:div {:class "alert alert-success fade in"}
-              [:button {:type "button" :class "close" :data-dismiss "alert" :aria-hidden "true"} "&times;"]
-              [:strong "恭喜！"]
-              "您已经成功注册用户！"])
-           [:div {:class "jumbotron"}
-            [:h1 {} "Jumbotron heading"]
-            [:p {:class "lead"} "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."]
-            [:button {:class "btn btn-lg btn-success", :data-toggle "modal" :data-target "#register"} "Sign up today"]]])
+            []
+            [:div
+             register-modal
+             #_(if (= alert-type :register-successful)
+                 [:div {:class "alert alert-success fade in"}
+                  [:button {:type "button" :class "close" :data-dismiss "alert" :aria-hidden "true"} "&times;"]
+                  [:strong "恭喜！"]
+                  "您已经成功注册用户！"])
+             [:div {:class "jumbotron"}
+              [:h1 {} "Jumbotron heading"]
+              [:p {:class "lead"} "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus."]
+              [:button {:class "btn btn-lg btn-success", :data-toggle "modal" :data-target "#register"} "Sign up today"]]])
 
 (def register-form
   [:form {:role "form" :action "/register" :method "post"}

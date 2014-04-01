@@ -12,11 +12,11 @@
                 user-map))
 ;;按id查询用户
 (defn user-id-query [id]
-  (jdbc/query db-spec :cc_user
+  (jdbc/query db-spec 
               ["select * from cc_user where id = ?" id]))
 ;;按用户名查询用户
 (defn user-name-query [username]
-  (jdbc/query db-spec :cc_user
+  (jdbc/query db-spec 
               ["select * from cc_user where username = ?" username]))
 ;;新建用户
 (defn user-insert!

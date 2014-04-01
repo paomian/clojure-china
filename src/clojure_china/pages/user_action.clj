@@ -31,10 +31,10 @@
            :title "register"})
 
 (def login-form
-  [:form {:class "form-signin", :role "form" :action "/login"} 
+  [:form {:class "form-signin", :role "form" :method "POST" :action "/login"} 
    [:h2 {:class "form-signin-heading"} "Please sign in"]
-   [:input {:type "text", :class "form-control", :placeholder "Email address", :required "", :autofocus ""}]
-   [:input {:type "password", :class "form-control", :placeholder "Password", :required ""}]
+   [:input {:name "user" :type "text", :class "form-control", :placeholder "Email address", :required "", :autofocus ""}]
+   [:input {:name "pwd" :type "password", :class "form-control", :placeholder "Password", :required ""}]
    [:label {:class "checkbox"}
     [:input {:type "checkbox", :value "remember-me"}] "Remember me"] 
    [:button {:class "btn btn-lg btn-primary btn-block", :type "submit"} "Sign in"]])
@@ -45,4 +45,4 @@
              (session/flash-get :error)
              (session/flash-get :success)
              login-form)
-           :tilet "login"})
+           :tilet "登录"})

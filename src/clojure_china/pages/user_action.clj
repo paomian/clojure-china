@@ -24,10 +24,11 @@
      [:td [:button.btn.btn-primary {:type "submit"} "Register"]]]]])
 
 (def-page register-page []
-          (list
-            (session/flash-get :error)
-            (session/flash-get :success)
-            register-form))
+          {:hiccup (list
+                     (session/flash-get :error)
+                     (session/flash-get :success)
+                     register-form)
+           :title "register"})
 
 (def login-form
   [:form {:class "form-signin", :role "form" :action "/login"} 
@@ -39,7 +40,9 @@
    [:button {:class "btn btn-lg btn-primary btn-block", :type "submit"} "Sign in"]])
 
 (def-page login-page []
-          (list
-          (session/flash-get :error)
-          (session/flash-get :success)
-          login-form))
+          {:hiccup
+           (list
+             (session/flash-get :error)
+             (session/flash-get :success)
+             login-form)
+           :tilet "login"})

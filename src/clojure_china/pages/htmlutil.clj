@@ -5,7 +5,7 @@
             [ring.util.response :as response]))
 ;;控制页面flash的显示
 (defn err-box [msg & code]
-  [:div.alert.alert-error
+  [:div.alert.alert-warning
    [:button {:type "button", :class "close", :data-dismiss "alert"} "&times;"] msg
    code])
 (defn suc-box [msg & code]

@@ -17,19 +17,20 @@
         (session/put! :user (:id userinfo))
         (response/redirect "/"))
       (do
-        (html/flash-err "登录失败，用户名或密码不正确！" ""))))) ;;在此加入flash机制
+        (html/flash-err "/"  "登录失败，用户名或密码不正确！"))))) ;;在此加入flash机制
 
 ;;用户注册
 (defn user-register
-  [username password rpassword email]
+  [username password r-password email]
   (if
-    (= password rpassword)
+    (= password r-password)
     (do
-      (future (dbutil/user-insert! username (encryptor password) email false))
+      (println (str username password r-password email))
+      (dbutil/user-insert! username (encryptor password) email false)
       (html/flash-suc "/register"  "注册成功！点击" [:a.alert-link {:href "#"} "登录"]))
     (html/flash-err "/register" "注册失败！")))
 
-(defn user-logout
+(defn user-logout []
   (do
     (session/clear!)
-    (flash-msg "/" "退出成功！")))
+    (html/flash-msg "/" "退出成功！")))

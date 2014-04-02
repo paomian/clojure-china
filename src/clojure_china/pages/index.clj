@@ -2,9 +2,13 @@
   (:require  
     [clojure-china.pages.htmlutil :refer [def-page]]
     [hiccup.core :refer :all]
+    [clojure-china.pages.user-action :refer [register-modal login-modal]]
     [noir.session :as session]
     [hiccup.page :refer :all]))
 (def index-form
+  (list
+  register-modal
+  login-modal
   [:div {:class "row row-offcanvas row-offcanvas-right"} 
    [:div {:class "col-xs-12 col-sm-9"} 
     [:p {:class "pull-right visible-xs"} 
@@ -49,7 +53,7 @@
      [:a {:href "#", :class "list-group-item"} "Link"]
      [:a {:href "#", :class "list-group-item"} "Link"]
      [:a {:href "#", :class "list-group-item"} "Link"]
-     [:a {:href "#", :class "list-group-item"} "Link"]]]])
+     [:a {:href "#", :class "list-group-item"} "Link"]]]]))
 
 (def-page index []
           {:hiccup (list 

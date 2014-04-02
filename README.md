@@ -29,6 +29,17 @@
 
 - if you want to join us. you can join the QQ group which number is `130107204`
 
+## Before runing 
+Step 1 : To create a file name dbconn.clj under by src/clojure_china/dbutil and write  follow example  to file, then create a database name clojure_china. 
+- (ns clojure-china.dbutil.dbconn)
+
+	(def db-spec {:subprotocol "postgresql"
+           :subname (str "//localhost/clojure_china") 
+           :user "postgres"
+           :password "123456"})
+
+Step 2 : Excecute all sql file under by src/clojure_china/dbutil/. 
+
 ## Running
 
 To start a web server for the application, run:

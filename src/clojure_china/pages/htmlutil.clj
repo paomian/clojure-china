@@ -20,7 +20,7 @@
            (for [x (range 3)]
              [:span.icon-bar])]]
          [:a.navbar-brand {:href "/"} "Clojure-China"]
-         [:div.collapse.navbar-collapse#bs-example-navbar-collapse-8
+         [:div.collapse.navbar-collapse{:id "bs-example-navbar-collapse-8"}
           [:ul.nav.navbar-nav
            [:ul.nav.navbar-nav
             (for [[content url classes] '(["首页" "#" ""]

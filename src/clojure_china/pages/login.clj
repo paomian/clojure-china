@@ -10,7 +10,7 @@
   [ring.util.response           :as response]
   [noir.cookies                 :as cookies]
   [noir.session                 :as session]))
-(defn dologin [user pwd] ;;这是被废弃的函数，只是用来作为新验证函数的参
+#_(defn dologin [user pwd] ;;这是被废弃的函数，只是用来作为新验证函数的参
   let [result (find-one-as-map "user" {:user user})]
     (if result
       (if (and
@@ -22,15 +22,15 @@
           (log-login user)
           (response/redirect "/"))
         (response/redirect "/err/login-err-page"))
-      (response/redirect "/err/login-err-page"))))
+      (response/redirect "/err/login-err-page")))
 
-(defn dologout []
+#_(defn dologout []
   (do 
     (log-logout (session/get :user))
     (session/clear!)
     (response/redirect "/")))
 
-(defn bye []
+#_(defn bye []
   (let [result (find-one-as-map "user" (:user (session/get :user)))]
     (do 
       (update "user" {:user (result :user)} {$set {:alive 0}})

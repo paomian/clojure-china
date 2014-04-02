@@ -32,7 +32,7 @@
 
 ;;页面模板
 (defn head-template [code]
-  (let [user (session/get :user)]
+  (let [user (session/get :username)]
     (html5
       [:head
        [:title (:title code)]
@@ -41,24 +41,25 @@
        #_(include-css "")
        [:body
         [:nav.navbar.navbar-inverse.navbar-static-top {:role "navigation"}
-         [:div.navbar-header
-          [:button.navbar-toggle 
-           {:type "button" :data-toggle "collapse" :data-target "bs-example-navbar-collapse-8"}
-           [:span.sr-only ""]
-           (for [x (range 3)]
-             [:span.icon-bar])]]
-         [:a.navbar-brand {:href "/"} "Clojure-China"]
-         [:div.collapse.navbar-collapse {:id "bs-example-navbar-collapse-8"}
-          [:ul.nav.navbar-nav
+         [:div.container
+          [:div.navbar-header
+           [:button.navbar-toggle 
+            {:type "button" :data-toggle "collapse" :data-target "bs-example-navbar-collapse-8"}
+            [:span.sr-only ""]
+            (for [x (range 3)]
+              [:span.icon-bar])]]
+          [:a.navbar-brand {:href "/"} "Clojure-China"]
+          [:div.collapse.navbar-collapse {:id "bs-example-navbar-collapse-8"}
            [:ul.nav.navbar-nav
-            (for [[content url classes] '(["首页" "#" ""]
+            (for [[content url classes] '(["首页" "" ""]
                                           ["Wiki" "#" ""]
                                           ["会员" "#" ""])]
-              [:li [:a {:class classes :href url} content]])
+              [:li [:a {:class classes :href url} content]])]
+           [:ul.nav.navbar-nav.navbar-right
             (if user
               (list
                 [:li {:class "dropdown"} 
-                 [:a {:href "#", :class "dropdown-toggle", :data-toggle "dropdown"} "Dropdown " [:b {:class "caret"}]] 
+                 [:a {:href "#", :class "dropdown-toggle", :data-toggle "dropdown"} (str (session/get :username)) [:b {:class "caret"}]] 
                  [:ul {:class "dropdown-menu", :role "menu"} 
                   [:li {} [:a {:href "#"} "个人信息"]] 
                   [:li {} [:a {:href "#"} "我的主页"]] 
@@ -66,12 +67,11 @@
                   [:li {:class "divider"}] 
                   [:li {} [:a {:href "#"} "我的收藏"]] 
                   [:li {:class "divider"}] 
-                  [:li {} [:a {:href "#"} "退出"]]]])
+                  [:li {} [:a {:href "/logout"} "退出"]]]])
               (list 
-                (for [[content url classes] '(["登录" "#" "pull-right"]
-                                              ["注册" "#" "pull-right"])]
-                  [:li [:a {:class classes :href url} content]])))
-            ]]]]
+                (for [[content url classes] '(["登录" "/login" "pull-right"]
+                                              ["注册" "/register" "pull-right"])]
+                  [:li [:a {:class classes :href url} content]])))]]]]
         [:div.container (:hiccup code)]
         (include-js "http://clojure-china.qiniudn.com/jquery.min.js")
         (include-js "http://clojure-china.qiniudn.com/bootstrap.min.js")

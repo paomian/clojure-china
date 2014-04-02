@@ -14,7 +14,8 @@
       (.checkPassword (StrongPasswordEncryptor.) pwd  (:password userinfo))
       (do
         (dbutil/user-update-lastlogintime (:id userinfo))
-        (session/put! :user (:id userinfo))
+        (println (:id userinfo))
+        (session/put! :username (:username userinfo))
         (html/flash-suc "/" "恭喜您，登录成功！"))
       (do
         (html/flash-err "/login"  "登录失败，用户名或密码不正确！"))))) ;;在此加入flash机制

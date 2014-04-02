@@ -27,8 +27,9 @@
      :password encrypted-password
      :email email
      :is_admin is-admin?
+     :last_login_time (Timestamp. (.getTime (Date.)))
      :register_time (Timestamp. (.getTime (Date.)))}))
 ;;更新用户最后登录时间
 (defn user-update-lastlogintime
   [userid]
-  jdbc/execute! db-spec ["UPDATE cc_user SET last_login_time = NOW() WHERE id = ?" userid])
+  jdbc/update! db-spec :cc_user {:last_login_time (Timestamp. (.getTime (Date.)))} ["id=?" userid])

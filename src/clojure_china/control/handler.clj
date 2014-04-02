@@ -11,6 +11,7 @@
            (GET "/" [] (index))
            (GET "/login" [] (login-page))
            (POST "/login" [user pwd] (user-login user pwd))
+           (GET "/logout" [] (user-logout))
            (GET "/register" [] (register-page))
            (POST "/register" [username password r-password email] (user-register username password r-password email))
            (route/resources "/")

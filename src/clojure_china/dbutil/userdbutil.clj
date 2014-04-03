@@ -32,4 +32,4 @@
 ;;更新用户最后登录时间
 (defn user-update-lastlogintime
   [userid]
-  jdbc/update! db-spec :cc_user {:last_login_time (Timestamp. (.getTime (Date.)))} ["id=?" userid])
+  (jdbc/update! db-spec :cc_user {:last_login_time (Timestamp. (.getTime (Date.)))} ["id=?" userid]))

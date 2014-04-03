@@ -10,7 +10,6 @@ pom.xml.asc
 /.lein-*
 /.nrepl-port
 dbconn.clj
-/resources
 tmp.html
 /.idea
 mytmp

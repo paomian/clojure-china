@@ -24,12 +24,14 @@
 (defn user-register
   [username password r-password email]
   (if
-    (= password r-password)
-    (do
+      (= password r-password)
+    (if (dbutil/check-username username)
+      (do
       (println (str username password r-password email))
       (dbutil/user-insert! username (encryptor password) email false)
-      (html/flash-suc "/"  "注册成功！点击" [:a.alert-link {:href "/login"} "登录"]))
-    (html/flash-err "/" "注册失败！")))
+      (html/flash-suc "/"  "注册成功！点击" [:a.alert-link {:data-target "#login" :data-toggle "modal"} "登录"]))
+      (html/flash-err "/" "注册失败，您的用户名已被使用"))
+    (html/flash-err "/" "注册失败！，您的两次输入的密码不匹配。")))
 
 (defn user-logout []
   (do

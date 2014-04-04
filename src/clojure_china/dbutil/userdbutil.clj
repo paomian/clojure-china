@@ -18,6 +18,9 @@
 (defn user-name-query [username]
   (jdbc/query db-spec 
               ["select * from cc_user where username = ?" username]))
+(defn check-username [username]
+  (empty? (jdbc/query db-spec
+                  ["select username from cc_user where username = ?" username])))
 ;;新建用户
 (defn user-insert!
   [username encrypted-password email is-admin?]

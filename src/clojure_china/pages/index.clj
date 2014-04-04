@@ -58,5 +58,6 @@
 
 (def-page index []
           {:hiccup (list 
+                     (session/flash-get :error)
                      (session/flash-get :success)
                      index-form) :title "主页"})

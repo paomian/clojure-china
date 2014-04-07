@@ -2,7 +2,7 @@
   (:require  
     [clojure-china.pages.htmlutil :refer [def-page]]
     [hiccup.core :refer :all]
-    [clojure-china.pages.user-action :refer [register-modal login-modal]]
+    [clojure-china.pages.account.action :refer [register-modal login-modal]]
     [noir.session :as session]
     [hiccup.page :refer :all]))
 (def index-form
@@ -17,31 +17,18 @@
     [:div {:class "jumbotron"}
      [:h2 {} "Welcome to Clojure-China"] 
      [:p {} "欢迎来到Clojure-China，对，没错，这里就是clojure社区，有望成为国内最权威的clojure社区，拥有国内几乎所有资深的clojure工程师。"]]
+    (for [x (range 3)]
     [:div {:class "row"} 
-     [:div {:class "col-6 col-sm-6 col-lg-4"} 
-      [:h2 {} "Heading"]
-      [:p {} "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. "]
-      [:p {} [:a {:class "btn btn-default", :href "#", :role "button"} "View details »"]]]
-     [:div {:class "col-6 col-sm-6 col-lg-4"} 
-      [:h2 {} "Heading"]
-      [:p {} "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. "]
-      [:p {} [:a {:class "btn btn-default", :href "#", :role "button"} "View details »"]]]
-     [:div {:class "col-6 col-sm-6 col-lg-4"} 
-      [:h2 {} "Heading"]
-      [:p {} "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. "]
-      [:p {} [:a {:class "btn btn-default", :href "#", :role "button"} "View details »"]]]
-     [:div {:class "col-6 col-sm-6 col-lg-4"} 
-      [:h2 {} "Heading"]
-      [:p {} "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. "]
-      [:p {} [:a {:class "btn btn-default", :href "#", :role "button"} "View details »"]]]
-     [:div {:class "col-6 col-sm-6 col-lg-4"} 
-      [:h2 {} "Heading"]
-      [:p {} "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. "]
-      [:p {} [:a {:class "btn btn-default", :href "#", :role "button"} "View details »"]]]
-     [:div {:class "col-6 col-sm-6 col-lg-4"} 
-      [:h2 {} "Heading"]
-      [:p {} "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. "]
-      [:p {} [:a {:class "btn btn-default", :href "#", :role "button"} "View details »"]]]]]]))
+     [:div {:class "col-12 col-sm-12 col-lg-12"} 
+      [:div {:class "col-2 col-sm-2 col-lg-2"}
+       [:div {:class "thumbnail"}
+       [:img {:class "mg-rounded" :src "pantakill.jpg" :alt "paomian"}]]
+       ]
+      [:div {:class "col-10 col-sm-10 col-lg-10"}
+      [:h4 {} "测试帖子一定要很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长"]
+      [:p {} "这是来自paomian的一个测试渲染效果的帖子"]]
+      ]])
+    ]]))
 (def right-link
    [:div {:class "col-xs-6 col-sm-3 sidebar-offcanvas", :id "sidebar", :role "navigation"} 
   [:div {:class "list-group"} 

@@ -8,3 +8,4 @@ create table cc_user
 	register_time timestamp without time zone,
 	last_login_time timestamp without time zone
 );
+

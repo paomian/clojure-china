@@ -4,8 +4,8 @@
             [noir.session :as session]
             [compojure.core :refer :all]
             [clojure-china.pages.index :refer [index]]
-            [clojure-china.pages.user-action :refer :all]
-            [clojure-china.control.user-action :refer :all]))
+            [clojure-china.pages.account.action :refer :all]
+            [clojure-china.control.account.action :refer :all]))
 
 (defroutes app-routes
            (GET "/" [] (index))

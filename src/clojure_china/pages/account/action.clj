@@ -1,4 +1,4 @@
-(ns clojure-china.pages.user-action
+(ns clojure-china.pages.account.action
   (:require [noir.session :as session]
             [hiccup.core :refer :all]
             [hiccup.page :refer :all]

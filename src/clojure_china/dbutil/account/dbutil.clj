@@ -32,6 +32,15 @@
      :last_login_time (Timestamp. (.getTime (Date.)))
      :register_time (Timestamp. (.getTime (Date.)))}))
 
+(defn user-update!
+  [username encrypted-password email]
+  (jdbc/update!  db-spec :cc_user
+    {:password encrypted-password
+     :email email
+     }
+    ["username = ?" username]
+    ))
+
 #_(defn user-update
   [])
 ;;更新用户最后登录时间

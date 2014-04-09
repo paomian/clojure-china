@@ -15,14 +15,16 @@ create table cc_post
 	title varchar(100) NOT NULL,
 	content text,
 	create_time timestamp without time zone,
-	classify varchar(50) references cc_classify(classify_name),
+	node varchar(50) references cc_node(node_name),
 );
 
  create table cc_reply
 (
 	id serial primary key,
 	time timestamp without time zone,
+	author varchar(50) NOT NULL
 	reply text,
+	post references cc_post(id)
 	status varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other'))
 );
 

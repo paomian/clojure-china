@@ -71,11 +71,22 @@
              (list 
                (for [[content target classes] '(["登录" "#login" ""]
                                                 ["注册" "#register" "pull-right"])]
-                 [:li [:a {:class classes :data-toggle "modal" :data-target target} content]])))]]]]
+                 [:li [:a {:class classes :data-toggle "modal" :herf target} content]])))]]]]
        [:div.container (:hiccup code)]
        (include-js "http://clojure-china.qiniudn.com/jquery.min.js")
        (include-js "http://clojure-china.qiniudn.com/bootstrap.min.js")
        ])))
+
+(defn create-modal 
+  [modal-name form]
+     [:div {:class "modal fade" :id (:id modal-name) :tabindex "-1" :role "dialog" :aria-labelledby (:name modal-name) :aria-hidden "true"}
+      [:div {:class "modal-dialog"}
+       [:div {:class "modal-content"}
+        [:div {:class "modal-header"}
+         [:button {:type "button" :class "close" :data-dismiss "modal" :aria-hidden "true"} "&times;"]
+         [:h4 {:class "modal-title" :id (str (:id modal-name) "Label") } (:name modal-name)]]
+        [:div {:class "modal-body"}
+         form]]]])
 
 (defmacro def-page [page-name [& args] & code]
   `(defn ~page-name [~@args]

@@ -3,7 +3,7 @@
             [hiccup.core :refer :all]
             [hiccup.page :refer :all]
             [hiccup.form :refer :all]
-            [clojure-china.pages.htmlutil :refer [def-page]]))
+            [clojure-china.pages.htmlutil :refer :all]))
 
 (def register-form
   [:form.form-signin {:role "form" :method "POST" :action "/register"}
@@ -24,24 +24,6 @@
      [:td]
      [:td [:button.btn.btn-primary {:type "submit"} "Register"]]]]])
 
-(def register-modal
-  [:div {:class "modal fade" :id "register" :tabindex "-1" :role "dialog" :aria-labelledby "注册会员" :aria-hidden "true"}
-   [:div {:class "modal-dialog"}
-    [:div {:class "modal-content"}
-     [:div {:class "modal-header"}
-      [:button {:type "button" :class "close" :data-dismiss "modal" :aria-hidden "true"} "&times;"]
-      [:h4 {:class "modal-title" :id "registerLabel"} "注册会员"]]
-     [:div {:class "modal-body"}
-      register-form]]]])
-
-(def-page register-page []
-          {:hiccup (list
-                     (session/flash-get :error)
-                     (session/flash-get :success)
-                     register-modal)
-           ;;register-form)
-           :title "register"})
-
 (def login-form
   [:form {:role "form" :method "POST" :action "/login"} 
    [:h2 {:class "form-signin-heading"} "Please sign in"]
@@ -51,7 +33,25 @@
     [:input {:type "checkbox", :value "remember-me"}] "Remember me"] 
    [:button {:class "btn btn-lg btn-primary btn-block", :type "submit"} "Sign in"]])
 
-(def login-modal
+#_(def register-modal
+  [:div {:class "modal fade" :id "register" :tabindex "-1" :role "dialog" :aria-labelledby "注册会员" :aria-hidden "true"}
+   [:div {:class "modal-dialog"}
+    [:div {:class "modal-content"}
+     [:div {:class "modal-header"}
+      [:button {:type "button" :class "close" :data-dismiss "modal" :aria-hidden "true"} "&times;"]
+      [:h4 {:class "modal-title" :id "registerLabel"} "注册会员"]]
+     [:div {:class "modal-body"}
+      register-form]]]])
+
+
+#_(def-page register-page []
+          {:hiccup (list
+                     (session/flash-get :error)
+                     (session/flash-get :success)
+                     register-modal)
+           :title "register"})
+
+#_(def login-modal
   [:div {:class "modal fade" :id "login" :tabindex "-1" :role "dialog" :aria-labelledby "登录" :aria-hidden "true"}
    [:div {:class "modal-dialog"}
     [:div {:class "modal-content"}
@@ -61,7 +61,7 @@
      [:div {:class "modal-body"}
       login-form]]]])
 
-(def-page login-page []
+#_(def-page login-page []
           {:hiccup
            (list
              (session/flash-get :error)

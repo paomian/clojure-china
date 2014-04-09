@@ -1,14 +1,14 @@
 (ns clojure-china.pages.index
   (:require  
-    [clojure-china.pages.htmlutil :refer [def-page]]
+    [clojure-china.pages.htmlutil :refer :all]
     [hiccup.core :refer :all]
-    [clojure-china.pages.account.action :refer [register-modal login-modal]]
+    [clojure-china.pages.account.action :refer :all]
     [noir.session :as session]
     [hiccup.page :refer :all]))
 (def index-form
   (list
-  register-modal
-  login-modal
+    (create-modal {:id "register" :name "注册"} register-form)
+    (create-modal {:id "login" :name "登录"} login-form)
   [:div {:class "row row-offcanvas row-offcanvas-right"} 
    [:div {:class "col-xs-12 col-sm-9"} 
     [:p {:class "pull-right visible-xs"} 

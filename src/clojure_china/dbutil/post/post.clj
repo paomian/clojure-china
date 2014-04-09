@@ -21,9 +21,10 @@
                  :content content
                  :node node
                  :author author}))
-
-
-;;
+(defn check-paging
+  []
+  (jdbc/query db-spec
+              ["select count(id) from cc_post where status in ('normal','other')"]))
 (defn post-id-query
   [id]
   (jdbc/query db-spec
@@ -41,7 +42,7 @@
               [(str "select id,title from cc_post where authour = ? order by create_time offset " (* (- (or pages 1) 1) page-size) " limit " page-size)] node))
 ;;按时间排序分页
 (defn post-paging-bytime
-  [page-size & pages]
+  [& pages]
   (jdbc/query db-spec
               [(str "select id,title from cc_post order by create_time offset " (* (- (or pages 1) 1) page-size) " limit " page-size)]))
 

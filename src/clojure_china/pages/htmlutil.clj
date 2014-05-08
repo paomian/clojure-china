@@ -1,6 +1,7 @@
 (ns clojure-china.pages.htmlutil
-  (:use [hiccup core page])
-  (:require [noir.session :as session]))
+  (:require [noir.session :as session]
+            [hiccup.core :refer :all]
+            [hiccup.page :refer :all]))
 ;;页面模板
 (defn head-template [code]
   (let [user (session/get :user)]
@@ -19,7 +20,7 @@
            (for [x (range 3)]
              [:span.icon-bar])]]
          [:a.navbar-brand {:href "/"} "Clojure-China"]
-         [:div.collapse.navbar-collapse#bs-example-navbar-collapse-8
+         [:div.collapse.navbar-collapse{:id "bs-example-navbar-collapse-8"}
           [:ul.nav.navbar-nav
            [:ul.nav.navbar-nav
             (for [[content url classes] '(["首页" "#" ""]

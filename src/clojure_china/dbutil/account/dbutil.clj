@@ -9,17 +9,18 @@
 ;;(defrecord User [])
 ;;按id查询用户
 (defn user-id-query [id]
+  "按照ID查询用户"
   (jdbc/query db-spec 
-              ["select * from cc_user where id = ?" id]))
+              ["SELECT * FROM CC_USER WHERE ID = ?" id]))
 ;;按用户名查询用户
 (defn user-name-query
   [username]
   (jdbc/query db-spec 
-              ["select * from cc_user where username = ?" username]))
+              ["SELECT * FROM CC_USER WHERE USERNAME = ?" username]))
 (defn check-username
   [username]
   (empty? (jdbc/query db-spec
-                  ["select username from cc_user where username = ?" username])))
+                  ["SELECT USERNAME FROM CC_USER WHERE USERNAME = ?" username])))
 ;;新建用户
 (defn user-create!
   [username encrypted-password email is-admin?]
@@ -38,7 +39,7 @@
     {:password encrypted-password
      :email email
      }
-    ["username = ?" username]
+    ["USERNAME = ?" username]
     ))
 
 #_(defn user-update
@@ -46,4 +47,4 @@
 ;;更新用户最后登录时间
 (defn user-update-lastlogintime
   [userid]
-  (jdbc/update! db-spec :cc_user {:last_login_time (Timestamp. (.getTime (Date.)))} ["id=?" userid]))
+  (jdbc/update! db-spec :cc_user {:last_login_time (Timestamp. (.getTime (Date.)))} ["ID=?" userid]))

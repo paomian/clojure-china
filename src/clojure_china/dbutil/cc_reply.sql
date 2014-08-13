@@ -1,8 +1,8 @@
-create table cc_reply
+create table if not exists CC_REPLY
 (
-	id serial primary key,
-	time timestamp without time zone,
-	post varchar(50) references cc_post(id),
-	reply text,
-	status varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good'))
-)
+  ID serial primary key,
+  TIME timestamp without time zone,
+  POST varchar(50) references cc_post(title),
+  REPLY text,
+  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good'))
+);

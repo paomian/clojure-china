@@ -1,6 +1,7 @@
 (ns clojure-china.pages.post.action
   (:require [noir.session :as session]
             [clojure-china.pages.htmlutil :refer :all]
+            [clojure-china.dbutil.post.post :refer :all]
             [hiccup.core :refer :all]
             [hiccup.page :refer :all]))
 

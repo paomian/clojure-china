@@ -1,11 +1,11 @@
-create table cc_post
+create table if not exists CC_POST
 (
-	id serial primary key,
-	mark integer,
-	author varchar(50) NOT NULL references cc_user(username),
-	title varchar(100) NOT NULL,
-	content text,
-	create_time timestamp without time zone,
-	node varchar(50) references cc_node(id),
-	status varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other'))
-)
+  ID serial primary key,
+  MARK integer,
+  AUTHOR varchar(50) NOT NULL references cc_user(username),
+  TITLE varchar(100) NOT NULL unique,
+  CONTENT text,
+  CREATE_TIME timestamp without time zone,
+  NODE varchar(50) references cc_node(node_name),
+  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other'))
+);

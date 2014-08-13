@@ -1,5 +1,5 @@
-create table cc_node
+create table if not exists CC_NODE
 (
-	id serial primary key,
-	node_name varchar(20),
-)
+  ID serial primary key,
+  NODE_NAME varchar(20) unique
+);

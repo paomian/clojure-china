@@ -1,11 +1,10 @@
-create table cc_user
+create table if not exists CC_USER
 (
-	id serial primary key,
-	username varchar(50) NOT NULL UNIQUE,
-	password varchar(100) NOT NULL,
-	email varchar(100) NOT NULL,
-	is_admin boolean NOT NULL,
-	register_time timestamp without time zone,
-	last_login_time timestamp without time zone
+  ID serial primary key,
+  USERNAME varchar(50) NOT NULL UNIQUE,
+  PASSWORD varchar(100) NOT NULL,
+  EMAIL varchar(100) NOT NULL,
+  IS_ADMIN boolean NOT NULL,
+  REGISTER_TIME timestamp without time zone,
+  LAST_LOGIN_TIME timestamp without time zone
 );
-

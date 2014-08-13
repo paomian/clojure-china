@@ -1,38 +1,37 @@
-create table if not exists cc_user
+create table if not exists CC_USER
 (
-	id serial primary key,
-	username varchar(50) NOT NULL UNIQUE,
-	password varchar(100) NOT NULL,
-	email varchar(100) NOT NULL,
-	is_admin boolean NOT NULL,
-	register_time timestamp without time zone,
-	last_login_time timestamp without time zone
+  ID serial primary key,
+  USERNAME varchar(50) NOT NULL UNIQUE,
+  PASSWORD varchar(100) NOT NULL,
+  EMAIL varchar(100) NOT NULL,
+  IS_ADMIN boolean NOT NULL,
+  REGISTER_TIME timestamp without time zone,
+  LAST_LOGIN_TIME timestamp without time zone
 );
 
-create table if not exists cc_node
+create table if not exists CC_NODE
 (
-	id serial primary key,
-	node_name varchar(20) unique
+  ID serial primary key,
+  NODE_NAME varchar(20) unique
 );
 
-create table if not exists cc_post
+create table if not exists CC_POST
 (
-	id serial primary key,
-	mark integer,
-	author varchar(50) NOT NULL references cc_user(username),
-	title varchar(100) NOT NULL unique,
-	content text,
-	create_time timestamp without time zone,
-	node varchar(50) references cc_node(node_name),
-	status varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other'))
+  ID serial primary key,
+  MARK integer,
+  AUTHOR varchar(50) NOT NULL references cc_user(username),
+  TITLE varchar(100) NOT NULL unique,
+  CONTENT text,
+  CREATE_TIME timestamp without time zone,
+  NODE varchar(50) references cc_node(node_name),
+  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other'))
 );
 
-create table if not exists cc_reply
+create table if not exists CC_REPLY
 (
-	id serial primary key,
-	time timestamp without time zone,
-	post varchar(50) references cc_post(title),
-	reply text,
-	status varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good'))
+  ID serial primary key,
+  TIME timestamp without time zone,
+  POST varchar(50) references cc_post(title),
+  REPLY text,
+  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good'))
 );
-

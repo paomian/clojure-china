@@ -31,16 +31,7 @@
 
 ## Before runing 
 
-Step 1: Create a file named dbconn.clj under src/clojure_china/dbutil with the content as stated below, and create a local postgres database named clojure_china.
-
-```clojure
-(ns clojure-china.dbutil.dbconn)
-     (def db-connection {:classname "org.postgresql.Driver"
-				   :subprotocol "postgresql"
-         		   :subname (str "//localhost/clojure_china") 
-				   :user "xxx"
-				   :password "xxx"})
-```
+Step 1: Create a file named dbconn.clj under src/clojure_china/dbutil with the content as stated **[this](https://github.com/paomian/clojure-china/tree/paomian/src/clojure_china/dbutil)**, and create a local postgres database named clojure_china.
 
 Step 2: Execute all sql files under src/clojure_china/dbutil
 
@@ -52,4 +43,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright ï¿½ 2014 FIXME

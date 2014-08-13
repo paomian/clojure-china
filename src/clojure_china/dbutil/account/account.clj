@@ -7,6 +7,9 @@
            [java.util Date]))
 
 ;;(defrecord User [])
+(defn m2v
+  [mao]
+  (apply conj {} ))
 
 (defn id-query [id]
   "按照ID查询用户"

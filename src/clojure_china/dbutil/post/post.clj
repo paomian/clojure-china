@@ -1,6 +1,7 @@
 (ns clojure-china.dbutil.post.post
   "对于post的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
+            [clojure-china.util.json :refer [map2json]]
             [clojure-china.dbutil.dbconn :refer [db-connection]])
   (:import [java.sql Timestamp]
            [java.util Date]))
@@ -18,7 +19,7 @@
                  :author      author
                  :create_time (Timestamp. (.getTime (Date.)))}))
 (defn update!
-  "跟新帖子"
+  "跟新post"
   [id title content node author]
   (jdbc/insert! (db-connection) :cc_post
                 {:title   title
@@ -37,32 +38,55 @@
               ["SELECT * FROM CC_POST WHERE ID = ?" id])
   )
 
+(defn vps
+  "处理分页页码"
+  [pags]
+  (* (- (or pags 1) 1) page-size))
+
+(defn query
+  [str & args]
+  (do (println str args)
+  (jdbc/query (db-connection)
+              [str (first args)])))
+
 (defn paging-byauthor
   "按作者查询并分页"
   [user & pages]
   (jdbc/query (db-connection)
-              [(str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOUR = ? ORDER BY CREATE_TIME OFFSET "
-                    (* (- (or pages 1) 1) page-size) " LIMIT " page-size)] user))
+              [(str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOR = ? ORDER BY CREATE_TIME OFFSET "
+                    (vps pages) " LIMIT " page-size) user]))
 
-(defn post-paging-bynode
+(defn paging-byauthor1
+  "按作者查询并分页1"
+  [user & pages]
+  (query (str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOR = ? ORDER BY CREATE_TIME OFFSET "
+               (vps (first pages)) " LIMIT " page-size) user))
+
+(defn paging-bynode
   "按节点查询并分页"
   [node & pages]
   (jdbc/query (db-connection)
-              [(str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOUR = ? ORDER BY CREATE_TIME OFFSET "
-                    (* (- (or pages 1) 1) page-size) " LIMIT " page-size)] node))
+              [(str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOR = ? ORDER BY CREATE_TIME OFFSET "
+                    (vps pages) " LIMIT " page-size) node]))
 
-(defn post-paging-bytime
+(defn paging-bytime
   "按创建时间排序分页"
   [& pages]
   (jdbc/query (db-connection)
               [(str "SELECT ID,TITLE FROM CC_POST ORDER BY CREATE_TIME OFFSET "
-                    (* (- (or pages 1) 1) page-size) " LIMIT " page-size)]))
+                    (vps pages) " LIMIT " page-size)]))
 
 
-(defn post-paging-bypopularity
+(defn paging-bypopularity
   "按人气排序分页"
   [pages page-size]
   (jdbc/query (db-connection)
               [(str "SELECT ID,TITLE FROM CC_POST ORDER BY MARK OFFSET "
-                    (* (- pages 1) page-size) " LIMIT " page-size)]))
-;;计算帖子权重
+                    (vps pages) " LIMIT " page-size)]))
+
+(defn api
+  [user & pages]
+  (-> {}
+      (assoc :status "200")
+      (assoc :message "test")
+      (assoc :posts (paging-byauthor1 user (first pages)))))

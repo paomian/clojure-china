@@ -5,7 +5,7 @@
                  [compojure "1.1.8"]
                  [org.clojure/java.jdbc "0.3.5"] ;jdbc
                  [org.postgresql/postgresql "9.3-1100-jdbc41"] ;pgsql client
-                 [com.taoensso/carmine "2.6.3"] ;redis client
+                 [com.taoensso/carmine "2.6.2"] ;redis client
                  [lib-noir "0.8.4"] ;A set of utilities and helpers for building ring apps.
                  [org.jasypt/jasypt "1.7"] ;JAVA加密包
                  [hiccup "1.0.5"]

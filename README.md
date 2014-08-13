@@ -35,7 +35,7 @@ Step 1: Create a file named dbconn.clj under src/clojure_china/dbutil with the c
 
 ```clojure
 (ns clojure-china.dbutil.dbconn)
-     (def db-spec {:classname "org.postgresql.Driver"
+     (def db-connection {:classname "org.postgresql.Driver"
 				   :subprotocol "postgresql"
          		   :subname (str "//localhost/clojure_china") 
 				   :user "xxx"

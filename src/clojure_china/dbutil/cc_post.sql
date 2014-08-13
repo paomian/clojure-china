@@ -1,7 +1,7 @@
 create table cc_post
 (
 	id serial primary key,
-	mark integer
+	mark integer,
 	author varchar(50) NOT NULL references cc_user(username),
 	title varchar(100) NOT NULL,
 	content text,

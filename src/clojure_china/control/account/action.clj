@@ -1,19 +1,21 @@
 ;;用户登录验证，和相关处理
 (ns clojure-china.control.account.action
-  (:require [clojure-china.dbutil.account.dbutil    :as accdbutil]
+  (:require [clojure-china.dbutil.account.account    :as accdbutil]
             [noir.session                       :as session]
             [ring.util.response                 :as response]
             [clojure-china.pages.htmlutil       :as html])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
-(defn encryptor [pwd]
+(defn encryptor
+  "密码的加密"
+  [pwd]
   (.encryptPassword (StrongPasswordEncryptor.) pwd))
 ;;用户登录
 (defn user-login [user pwd]
-  (let [userinfo (first (accdbutil/user-name-query user))]
+  (let [userinfo (first (accdbutil/name-query user))]
     (if
       (.checkPassword (StrongPasswordEncryptor.) pwd  (:password userinfo))
       (do
-        (accdbutil/user-update-lastlogintime (:id userinfo))
+        (accdbutil/update-lastlogintime (:id userinfo))
         (println (:id userinfo))
         (session/put! :username (:username userinfo))
         (html/flash-suc "/" "恭喜您，登录成功！"))
@@ -25,7 +27,7 @@
   [username password r-password email]
   (if
       (= password r-password)
-    (if (accdbutil/check-username username)
+    (if (accdbutil/check-name username)
       (do
       (println (str username password r-password email))
       (accdbutil/user-create! username (encryptor password) email false)

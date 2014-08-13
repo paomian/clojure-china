@@ -1,59 +1,68 @@
 (ns clojure-china.dbutil.post.post
+  "对于post的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure-china.dbutil.dbconn :refer [db-spec]])
+            [clojure-china.dbutil.dbconn :refer [db-connection]])
   (:import [java.sql Timestamp]
            [java.util Date]))
 
 (def page-size 20)
 (def table "CC_POST")
 
-(defn post-create!
+(defn create!
+  "创建post"
   [title content node author]
-  (jdbc/insert! db-spec :cc_post
+  (jdbc/insert! (db-connection) :cc_post
                 {:title       title
                  :content     content
                  :node        node
                  :author      author
                  :create_time (Timestamp. (.getTime (Date.)))}))
-(defn post-update!
+(defn update!
+  "跟新帖子"
   [id title content node author]
-  (jdbc/insert! db-spec :cc_post
+  (jdbc/insert! (db-connection) :cc_post
                 {:title   title
                  :content content
                  :node    node
                  :author  author}))
 (defn check-paging
   []
-  (jdbc/query db-spec
+  (jdbc/query (db-connection)
               ["SELECT COUNT(ID) FROM CC_POST WHERE STATUS IN ('NORMAL','OTHER')"]))
-(defn post-id-query
+
+(defn id-query
+  "按id查询post"
   [id]
-  (jdbc/query db-spec
+  (jdbc/query (db-connection)
               ["SELECT * FROM CC_POST WHERE ID = ?" id])
   )
-;;按作者查询并分页
-(defn post-paging-byauthor
+
+(defn paging-byauthor
+  "按作者查询并分页"
   [user & pages]
-  (jdbc/query db-spec
+  (jdbc/query (db-connection)
               [(str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOUR = ? ORDER BY CREATE_TIME OFFSET "
                     (* (- (or pages 1) 1) page-size) " LIMIT " page-size)] user))
-;;按节点查询并分页
+
 (defn post-paging-bynode
+  "按节点查询并分页"
   [node & pages]
-  (jdbc/query db-spec
+  (jdbc/query (db-connection)
               [(str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOUR = ? ORDER BY CREATE_TIME OFFSET "
                     (* (- (or pages 1) 1) page-size) " LIMIT " page-size)] node))
-;;按时间排序分页
+
 (defn post-paging-bytime
+  "按创建时间排序分页"
   [& pages]
-  (jdbc/query db-spec
+  (jdbc/query (db-connection)
               [(str "SELECT ID,TITLE FROM CC_POST ORDER BY CREATE_TIME OFFSET "
                     (* (- (or pages 1) 1) page-size) " LIMIT " page-size)]))
 
-;;按人气排序分页
+
 (defn post-paging-bypopularity
+  "按人气排序分页"
   [pages page-size]
-  (jdbc/query db-spec
+  (jdbc/query (db-connection)
               [(str "SELECT ID,TITLE FROM CC_POST ORDER BY MARK OFFSET "
                     (* (- pages 1) page-size) " LIMIT " page-size)]))
 ;;计算帖子权重

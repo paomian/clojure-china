@@ -10,7 +10,7 @@
 (def db-user "your db user")
 (def db-host "your db host")
 (def db-port "your db port")
-(def db-connection
+(def db-spec
   {:classname "org.postgresql.Driver"
    :subprotocol "postgresql"
    :subname (str "//" db-host ":" db-port "/" db-name)

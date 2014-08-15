@@ -7,8 +7,8 @@
 
 
 
-            [clojure-china.pages.index :refer [index]]
-            [clojure-china.pages.account.action :refer :all]
+            #_[clojure-china.pages.index :refer [index]]
+            #_[clojure-china.pages.account.action :refer :all]
             [clojure-china.control.account.action :refer :all]
             [clojure-china.control.post.action :as pact]
             [clojure-china.dbutil.post.post]))
@@ -16,10 +16,10 @@
 
 
 (defroutes app-routes
-           (GET "/" {{user :user} :params :as request} (do
-                                                   (println request)
-                                                   (pact/api  (Long/valueOf user))))
-          ;; (GET "/login" [] (login-page))
+           (GET "/" {{user :user pages :pages} :params :as request} (do
+                                                                      (println request)
+                                                                      (pact/userpostapi user pages)))
+           ;; (GET "/login" [] (login-page))
            (POST "/login" [user pwd] (user-login user pwd))
            (GET "/logout" [] (user-logout))
            ;;(GET "/register" [] (register-page))

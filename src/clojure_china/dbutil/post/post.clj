@@ -1,9 +1,8 @@
 (ns clojure-china.dbutil.post.post
   "对于post的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
-            [clojure-china.util.json :refer [map2json]]
-            [clojure-china.dbutil.dbconn :refer [db-connection]]
-            [clojure-china.util.json :refer [map2json]])
+
+            [clojure-china.dbutil.dbconn :refer [db-connection]])
 
   (:import [java.sql Timestamp]
            [java.util Date]))
@@ -12,15 +11,14 @@
 (def table "CC_POST")
 
 (defn- query
-  [str & args]
-  (do (println str args)
+  [s & args]
+  (do (println s args)
       (jdbc/query (db-connection)
-                  (flatten [str args]))))
+                  (apply conj [s] args))))
 (defn- vps
   "处理分页页码"
   [pages]
-    (println pages)
-    (* (- pages 1) page-size))
+  (* (- pages 1) page-size))
 
 (defn create!
   "创建post"
@@ -61,7 +59,7 @@
   [user pages]
   (query
     (str "SELECT ID,TITLE FROM CC_POST WHERE AUTHOR = ? ORDER BY CREATE_TIME OFFSET "
-          (vps pages) " LIMIT " page-size) user))
+         (vps pages) " LIMIT " page-size) user))
 
 (defn paging-byauthorname
   "按作者用户名查询分页"

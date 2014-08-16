@@ -12,26 +12,35 @@ create table if not exists CC_USER
 create table if not exists CC_NODE
 (
   ID serial primary key,
-  NODE_NAME varchar(20) unique
+  NODE varchar(20) unique,
+  CREATE_TIME timestamp without time zone,
+  UPDATE_TIME timestamp without time zone
 );
 
 create table if not exists CC_POST
 (
   ID serial primary key,
   MARK integer,
-  AUTHOR varchar(50) NOT NULL references cc_user(username),
+  AUTHOR varchar(50) NOT NULL references cc_user(id),
   TITLE varchar(100) NOT NULL unique,
   CONTENT text,
+  NODE varchar(50) references cc_node(id),
+  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other')),
   CREATE_TIME timestamp without time zone,
-  NODE varchar(50) references cc_node(node_name),
-  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other'))
+  UPDATE_TIME timestamp without time zone
 );
 
 create table if not exists CC_REPLY
 (
   ID serial primary key,
-  TIME timestamp without time zone,
-  POST varchar(50) references cc_post(title),
+  POST varchar(50) references cc_post(id),
   REPLY text,
-  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good'))
+  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good')),
+  CREATE_TIME timestamp without time zone,
+  UPDATE_TIME timestamp without time zone
 );
+
+create table if not exists POSTS_NODES
+(
+  POST_ID
+)

@@ -1,7 +1,7 @@
 (ns clojure-china.control.post.action
   (:require [noir.validation :refer [valid-number?]]
             [clojure-china.control.json :refer [map2json]]
-            [clojure-china.dbutil.post.post :refer :all]))
+            [clojure-china.dbutil.post.post :as pdb]))
 
 
 (defn- status
@@ -43,7 +43,7 @@
       (-> {}
           (status 200)
           (message "test")
-          (posts (paging-byauthorid user pages))
+          (posts (pdb/paging-byauthorid user pages))
           (map2json))))
 
 (defn- name
@@ -52,13 +52,13 @@
       (-> {}
           (status 200)
           (message "test")
-          (posts (paging-byauthorname user pages))
+          (posts (pdb/paging-byauthorname user pages))
           (map2json))))
 
 (defn userpostapi
   [user pages]
   (println pages)
-  (let [page (valid-pages pages)]
+  (let [page (- (valid-pages pages) 1)]
     (println (type user) (type page))
     (if (valid-number? user)
       (id (Long/valueOf user) page)

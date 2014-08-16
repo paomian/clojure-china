@@ -1,5 +1,7 @@
-create table if not exists CC_NODE
+create table if not exists CC_NODES
 (
   ID serial primary key,
-  NODE_NAME varchar(20) unique
+  NAME varchar(20) unique,
+  CREATE_TIME timestamp without time zone,
+  UPDATE_TIME timestamp without time zone
 );

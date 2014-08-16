@@ -1,4 +1,4 @@
-create table if not exists CC_USER
+create table if not exists CC_USERS
 (
   ID serial primary key,
   USERNAME varchar(50) NOT NULL UNIQUE,

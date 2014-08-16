@@ -4,11 +4,13 @@
             [noir.session :as session]
             [noir.validation :refer [valid-number?]]
             [compojure.core :refer :all]
+            [taoensso.carmine.ring :refer :all]
 
 
 
             #_[clojure-china.pages.index :refer [index]]
             #_[clojure-china.pages.account.action :refer :all]
+            [clojure-china.dbutil.redisutil :refer [session-conn]]
             [clojure-china.control.account.action :refer :all]
             [clojure-china.control.post.action :as pact]
             [clojure-china.dbutil.post.post]))
@@ -16,7 +18,7 @@
 
 
 (defroutes app-routes
-           (GET "/" {{user :user pages :pages} :params :as request} (do
+           (GET "/post" {{user :user pages :pages} :params :as request} (do
                                                                       (println request)
                                                                       (pact/userpostapi user pages)))
            ;; (GET "/login" [] (login-page))
@@ -31,4 +33,4 @@
   (->
     (handler/site app-routes)
     (session/wrap-noir-flash)
-    (session/wrap-noir-session)))
+    (session/wrap-noir-session {:store (carmine-store session-conn {:key-prefix "session" :expiration-secs (* 60 60 24 30)})})))

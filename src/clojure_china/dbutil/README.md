@@ -21,6 +21,6 @@
 
 ###Ation
 
-- Befor you run the clojure-china,you must run the script dbinit.sql to init databases; 
+- Befor you run the clojure-china,you must run some command like [this](https://github.com/paomian/clojure-china#before-runing)
 
 

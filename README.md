@@ -29,6 +29,12 @@
 
 - if you want to join us. you can join the QQ group which number is `130107204`
 
+## Before runing 
+
+Step 1: Create a file named dbconn.clj under src/clojure_china/dbutil with the content as stated **[this](https://github.com/paomian/clojure-china/tree/paomian/src/clojure_china/dbutil)**, and create a local postgres database named clojure_china.
+
+Step 2: run`lein repl`in the path which is project root path,and run`((use 'lobos.core 'lobos.connectivity 'lobos.migration 'lobos.migrations))` then `(migrate)` 
+
 ## Running
 
 To start a web server for the application, run:
@@ -37,4 +43,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright ï¿½ 2014 FIXME

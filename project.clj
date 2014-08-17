@@ -13,7 +13,7 @@
                            [ring/ring-core "1.3.0"]         ;ring-core - essential functions for handling parameters, cookies and more
                            [hickory "0.5.3"]
                            [clj-time "0.8.0"]
-                           [lobos "1.0.0-beta1"]
+                           [lobos "1.0.0-beta2"]
                            [cheshire "5.3.1"]               ;json
                            [log4j "1.2.15" :exclusions [javax.mail/mail
                                                         javax.jms/jms

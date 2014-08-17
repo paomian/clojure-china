@@ -1,14 +1,18 @@
 (ns clojure-china.dbutil.post.post
   "对于post的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
-            [korma.core :as k]
-            [clojure-china.dbutil.dbconn :refer :all])
+            [korma
+             [core :as k]
+             [db :as kdb]]
+            [clojure-china.dbutil.dbconn :refer [db-spec]])
   (:import [java.sql Timestamp]
            [java.util Date]))
 
 (def page-size 20)
 (def table "CC_POST")
 (declare users posts nodes replys)
+
+(kdb/defdb ccdb db-spec)
 
 (k/defentity users
                (k/table :cc_user)

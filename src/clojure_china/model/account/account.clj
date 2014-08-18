@@ -1,11 +1,11 @@
-(ns clojure-china.dbutil.account.account
+(ns clojure-china.model.account.account
   "对于用户的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [korma
              [core :as k]
              [db :as kdb]]
-            [clojure-china.dbutil.dbconn :refer [db-spec]]
-            [clojure-china.dbutil.entitys :refer :all])
+            [clojure-china.model.dbconn :refer [db-spec]]
+            [clojure-china.model.entitys :refer :all])
   (:import [java.sql Timestamp]
            [java.util Date]))
 
@@ -38,13 +38,13 @@
 (defn create!
   [username encrypted-password email]
   (k/insert users
-            (values {:username username
+            (k/values {:username username
                      :password encrypted-password
                      :email    email})))
-(update users
-        (set-fields {:status "active"
+(k/update users
+        (k/set-fields {:status "active"
                      :beta   false})
-        (where {:visits [> 10]}))
+        (k/where {:visits [> 10]}))
 
 (defn user-update!
   "更新用户信息"

@@ -1,0 +1,13 @@
+(ns clojure-china.model.dbconn)
+
+(def db-name "cc")
+(def db-user "user")
+(def db-host "127.0.0.1")
+(def db-port "5432")
+
+(def db-spec
+  {:classname   "org.postgresql.Driver"
+   :subprotocol "postgresql"
+   :subname     (str "//" db-host ":" db-port "/" db-name)
+   :user        db-user
+   :password    "password"})

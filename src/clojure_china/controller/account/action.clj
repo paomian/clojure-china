@@ -1,9 +1,8 @@
 ;;用户登录验证，和相关处理
-(ns clojure-china.control.account.action
-  (:require [clojure-china.dbutil.account.account :as accdbutil]
+(ns clojure-china.controller.account.action
+  (:require [clojure-china.model.account.account :as accdbutil]
             [noir.session :as session]
-            [ring.util.response :as response]
-            [clojure-china.pages.htmlutil :as html])
+            [ring.util.response :as response])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
 (defn encryptor

@@ -4,7 +4,7 @@
 - It is look like this
 
 ```clojure
-(ns clojure-china.dbutil.dbconn)
+(ns clojure-china.model.dbconn)
 
 (def db-name "your db name")
 (def db-user "your db user")

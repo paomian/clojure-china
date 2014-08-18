@@ -1,11 +1,11 @@
-(ns clojure-china.dbutil.post.post
+(ns clojure-china.model.post.post
   "对于post的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [korma
              [core :as k]
              [db :as kdb]]
-            [clojure-china.dbutil.dbconn :refer [db-spec]]
-            [clojure-china.dbutil.entitys :refer :all])
+            [clojure-china.model.dbconn :refer [db-spec]]
+            [clojure-china.model.entitys :refer :all])
   (:import [java.sql Timestamp]
            [java.util Date]))
 

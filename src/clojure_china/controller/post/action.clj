@@ -1,7 +1,7 @@
-(ns clojure-china.control.post.action
+(ns clojure-china.controller.post.action
   (:require [noir.validation :refer [valid-number?]]
-            [clojure-china.control.json :refer [map2json]]
-            [clojure-china.dbutil.post.post :as pdb]))
+            [clojure-china.controller.json :refer [map2json]]
+            [clojure-china.model.post.post :as pdb]))
 
 
 (defn- status

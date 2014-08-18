@@ -1,9 +1,9 @@
-(ns clojure-china.dbutil.entitys
+(ns clojure-china.model.entitys
   (:require [clojure.java.jdbc :as jdbc]
             [korma
              [core :as k]
              [db :as kdb]]
-            [clojure-china.dbutil.dbconn :refer [db-spec]]))
+            [clojure-china.model.dbconn :refer [db-spec]]))
 
 (kdb/defdb ccdb db-spec)
 

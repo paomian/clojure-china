@@ -1,4 +1,4 @@
-(ns clojure-china.control.json
+(ns clojure-china.controller.json
   "json的相关事宜"
   (:require [cheshire.core :refer :all]))
 

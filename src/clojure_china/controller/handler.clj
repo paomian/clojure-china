@@ -1,4 +1,4 @@
-(ns clojure-china.control.handler
+(ns clojure-china.controller.handler
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [noir.session :as session]
@@ -6,14 +6,10 @@
             [compojure.core :refer :all]
             [taoensso.carmine.ring :refer :all]
 
-
-
-            #_[clojure-china.pages.index :refer [index]]
-            #_[clojure-china.pages.account.action :refer :all]
-            [clojure-china.dbutil.redisutil :refer [session-conn]]
-            [clojure-china.control.account.action :refer :all]
-            [clojure-china.control.post.action :as pact]
-            [clojure-china.dbutil.post.post]))
+            [clojure-china.model.redis :refer [session-conn]]
+            [clojure-china.controller.account.action :refer :all]
+            [clojure-china.controller.post.action :as pact]
+            [clojure-china.model.post.post]))
 
 
 
@@ -23,10 +19,8 @@
                          {{user :user pages :pages} :params :as request} (do
                                                                            (println request)
                                                                            (pact/userpostapi user pages)))
-                    ;; (GET "/login" [] (login-page))
                     (POST "/login" [user pwd] (user-login user pwd))
                     (GET "/logout" [] (user-logout))
-                    ;;(GET "/register" [] (register-page))
                     (POST "/register" [username password r-password email] (user-register username password r-password email))
                     (route/resources "/")
                     (route/not-found "Not Found")))

@@ -1,4 +1,4 @@
-(ns clojure-china.dbutil.redisutil)
+(ns clojure-china.model.redis)
 
 
 (def session-conn {:pool {} :spec {:host       "127.0.0.1" :port 6379

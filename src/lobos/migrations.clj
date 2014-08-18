@@ -3,7 +3,7 @@
                             bigint boolean char double float time])
   (:use (lobos [migration :only [defmigration]] core schema
                config helpers))
-  (:require [clojure-china.dbutil.dbconn :refer [db-spec]]))
+  (:require [clojure-china.model.dbconn :refer [db-spec]]))
 
 (defn dbinit []
   (migrate))

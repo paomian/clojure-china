@@ -8,25 +8,21 @@
 (kdb/defdb ccdb db-spec)
 
 (k/defentity users
-             (k/table :cc_user)
-             (k/database ccdb)
-             (k/entity-fields :id :username))
+             (k/table :users)
+             (k/database ccdb))
 
 (k/defentity nodes
-             (k/table :cc_node)
-             (k/database ccdb)
-             (k/entity-fields :id :node))
+             (k/table :nodes)
+             (k/database ccdb))
 
 (k/defentity posts
-             (k/table :cc_post)
+             (k/table :posts)
              (k/database ccdb)
-             (k/entity-fields :id :title)
-             (k/belongs-to users {:fk :author_id})
-             (k/belongs-to nodes  {:fk :node_id}))
+             (k/belongs-to users {:fk :user_id})
+             (k/belongs-to nodes {:fk :node_id}))
 
 
 (k/defentity replys
-             (k/table :cc_node)
+             (k/table :nodes)
              (k/database ccdb)
-             (k/entity-fields :id :reply :nods :status)
              (k/belongs-to posts {:fk :post_id}))

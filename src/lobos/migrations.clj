@@ -1,9 +1,9 @@
 (ns lobos.migrations
+  (:require [clojure-china.model.dbconn :refer [db-spec]])
   (:refer-clojure :exclude [alter drop
                             bigint boolean char double float time])
   (:use (lobos [migration :only [defmigration]] core schema
-               config helpers))
-  (:require [clojure-china.model.dbconn :refer [db-spec]]))
+               config helpers)))
 
 (defn dbinit []
   (migrate))

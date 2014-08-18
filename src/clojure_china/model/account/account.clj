@@ -2,8 +2,8 @@
   "对于用户的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [korma
-             [core :as k]
-             [db :as kdb]]
+             [core :as k]]
+            [clj-time.local :as l]
             [clojure-china.model.dbconn :refer [db-spec]]
             [clojure-china.model.entitys :refer :all])
   (:import [java.sql Timestamp]
@@ -36,15 +36,12 @@
                      (k/where {:id id})))))
 
 (defn create!
+  "创建用户"
   [username encrypted-password email]
   (k/insert users
             (k/values {:username username
-                     :password encrypted-password
-                     :email    email})))
-(k/update users
-        (k/set-fields {:status "active"
-                     :beta   false})
-        (k/where {:visits [> 10]}))
+                       :password encrypted-password
+                       :email    email})))
 
 (defn user-update!
   "更新用户信息"
@@ -62,5 +59,5 @@
   "更新用户最后登录时间"
   [id]
   (k/update users
-            (k/set-fields {:last_login_time (k/now)})
+            (k/set-fields {:last_login_time (l/local-now)})
             (k/where {:id id})))

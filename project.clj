@@ -19,7 +19,7 @@
                                                         com.sun.jmx/jmxri]]]
             :plugins [[lein-ring "0.8.10"]]
             :ring {:handler clojure-china.controller.handler/app
-                   :init lobos.core/migrate}
+                   :init lobos.migrations/dbinit}
             :profiles
             {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"]

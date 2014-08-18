@@ -14,11 +14,12 @@
 
 
 (defroutes app-routes
-           (context "/v1"
+           (context "/v1" request
                     (GET "/post/:username"
-                         {{user :user pages :pages} :params :as request} (do
+                         {{user :username pages :pages} :params :as request} (do
                                                                            (println request)
                                                                            (pact/userpostapi user pages)))
+                    (GET "/:test" [test]  (print test))
                     (POST "/login" [user pwd] (user-login user pwd))
                     (GET "/logout" [] (user-logout))
                     (POST "/register" [username password r-password email] (user-register username password r-password email))

@@ -22,7 +22,7 @@
             (k/limit page-size)
             (k/offset (* pages 20))))
 
-(defn paging-byauthorid [username pages]
+(defn paging-byauthorname [username pages]
   (k/select posts
             (k/with users)
             (k/fields :posts.id :posts.title)

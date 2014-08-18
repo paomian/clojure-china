@@ -16,16 +16,20 @@
 
 (defn paging-byauthorid [id pages]
   (k/select posts
-            (k/with users
-                    (k/where {:user.id id}))
+            (k/with users)
+            (k/fields :posts.id :posts.title)
+            (k/where {:users.id id})
             (k/limit page-size)
             (k/offset (* pages 20))))
 
-#_(defn paging-byauthorname [name pages]
-  (k/select users
-            (k/where {:username name})
+(defn paging-byauthorname [username pages]
+  (k/select posts
+            (k/with users)
+            (k/fields :posts.id :posts.title)
+            (k/where {:users.username username})
             (k/limit page-size)
             (k/offset (* pages 20))))
-
-#_(defn paging-byauthorid1 [id pages]
-  (k/select))
+(defn ttt []
+  (k/select posts
+            (k/with users)
+            (k/fields :posts.id :posts.title)))

@@ -18,7 +18,8 @@
                                                         com.sun.jdmk/jmxtools
                                                         com.sun.jmx/jmxri]]]
             :plugins [[lein-ring "0.8.10"]]
-            :ring {:handler clojure-china.control.handler/app}
+            :ring {:handler clojure-china.control.handler/app
+                   :init lobos.core/migrate}
             :profiles
             {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                                   [ring-mock "0.1.5"]

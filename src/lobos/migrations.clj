@@ -5,7 +5,8 @@
                config helpers))
   (:require [clojure-china.dbutil.dbconn :refer [db-spec]]))
 
-
+(defn dbinit []
+  (migrate))
 
 (defmigration users
               (up []

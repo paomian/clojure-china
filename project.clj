@@ -9,9 +9,7 @@
                            [com.taoensso/carmine "2.6.2"]   ;redis client
                            [lib-noir "0.8.4"]               ;A set of utilities and helpers for building ring apps.
                            [org.jasypt/jasypt "1.7"]        ;JAVA加密包
-                           [hiccup "1.0.5"]
                            [ring/ring-core "1.3.0"]         ;ring-core - essential functions for handling parameters, cookies and more
-                           [hickory "0.5.3"]
                            [clj-time "0.8.0"]
                            [lobos "1.0.0-beta2"]
                            [cheshire "5.3.1"]               ;json

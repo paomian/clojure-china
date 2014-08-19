@@ -11,7 +11,7 @@
                            [org.jasypt/jasypt "1.7"]        ;JAVA加密包
                            [ring/ring-core "1.3.0"]         ;ring-core - essential functions for handling parameters, cookies and more
                            [clj-time "0.8.0"]
-                           [lobos "1.0.0-beta2"]
+                           [lobos "1.0.0-beta3"]
                            [cheshire "5.3.1"]               ;json
                            [log4j "1.2.15" :exclusions [javax.mail/mail
                                                         javax.jms/jms

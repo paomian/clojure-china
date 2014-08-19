@@ -55,7 +55,7 @@
           (posts (pdb/paging-byauthorname user pages))
           (map2json))))
 
-(defn userpostapi
+(defn post-byuser
   [user pages]
   (println pages)
   (let [page (- (valid-pages pages) 1)]

@@ -1,28 +1,8 @@
 (ns clojure-china.controller.post.action
   (:require [noir.validation :refer [valid-number?]]
-            [clojure-china.controller.json :refer [map2json]]
+
+            [clojure-china.controller.json :refer :all]
             [clojure-china.model.post.post :as pdb]))
-
-
-(defn- status
-  [m s]
-  (assoc m :status s))
-
-(defn- message
-  [m mss]
-  (assoc m :message mss))
-
-(defn- posts
-  [m p]
-  (assoc m :post p))
-
-(defn- valid-pages
-  [pages]
-  (if pages
-    (if (valid-number? pages)
-      (Long/valueOf pages)
-      1)
-    1))
 
 #_(defn- swich
   [user pages func func1]
@@ -46,7 +26,7 @@
           (posts (pdb/paging-byauthorid user pages))
           (map2json))))
 
-(defn- name
+(defn- sname
   [user pages]
   (do (println user (type user))
       (-> {}
@@ -62,4 +42,4 @@
     (println (type user) (type page))
     (if (valid-number? user)
       (id (Long/valueOf user) page)
-      (name user page))))
+      (sname user page))))

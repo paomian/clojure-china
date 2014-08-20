@@ -9,16 +9,23 @@
             [clojure-china.model.redis :refer [session-conn]]
             [clojure-china.controller.account.action :refer :all]
             [clojure-china.controller.post.action :as pact]
+            [clojure-china.controller.account.action :as aact]
             [clojure-china.controller.json :refer [result]]
             [clojure-china.model.post.post]))
 
+(defmacro pri [request & body]
+  `(do
+     (println ~request)
+     ~@body)
+  )
 
 (defroutes app-routes
-           (context "/v1" request
-                    (GET "/post/:username"
-                         {{user :username pages :pages} :params :as request} (do
-                                                                               (println request)
-                                                                               (result (pact/post-byuser user pages))))
+           (context "/v1" _
+                    (GET "/user/:username/post"
+                         {{user :username pages :pages} :params :as request} (pri request (result (pact/post-byuser user pages))))
+
+                    (GET "/user/:username"
+                         {{user :username} :params :as request} (pri request (result (aact/user-query user))))
                     (GET "/:test" [test] (print test))
                     (POST "/login" [user pwd] (user-login user pwd))
                     (GET "/logout" [] (user-logout))

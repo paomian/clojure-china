@@ -10,11 +10,11 @@
   (generate-string map))
 
 (defn status
-  [m s]
+  [m ^Integer s]
   (assoc m :status s))
 
 (defn message
-  [m mss]
+  [m ^String mss]
   (assoc m :message mss))
 
 (defn posts

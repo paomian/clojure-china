@@ -1,44 +1,36 @@
 (ns clojure-china.controller.post.action
   (:require [noir.validation :refer [valid-number?]]
 
-            [clojure-china.controller.json :refer :all]
+            [clojure-china.controller.json :as mj]
             [clojure-china.model.post.post :as pdb]))
 
-#_(defn- swich
-  [user pages func func1]
-  (if (valid-number? user)
-    (func (Long/valueOf user) pages)
-    (func1 user pages)))
-
-(str "{\"status\" : \"500\" \"message\" : \"no valid query args\"}")
-
-
-#_(defn postsbyuser
-  [user pages]
-  (swich user pages paging-byauthorid paging-byauthorname))
-
-(defn- id
-  [user pages]
-  (do (println user (type user))
+(defn- result
+  [status message fun]
+  (fn
+    [user pages]
+    (do
+      (println user (type user))
       (-> {}
-          (status 200)
-          (message "test")
-          (posts (pdb/paging-byauthorid user pages))
-          (map2json))))
+          (mj/status status)
+          (mj/message message)
+          (mj/posts (fun user pages))
+          (mj/map2json)))))
+(def id
+  (result 200 "test" pdb/paging-byauthorid))
 
-(defn- sname
-  [user pages]
-  (do (println user (type user))
-      (-> {}
-          (status 200)
-          (message "test")
-          (posts (pdb/paging-byauthorname user pages))
-          (map2json))))
+(def sname
+  (result 200 "test" pdb/paging-byauthorname))
+
+(defn post-query
+  [^String id]
+  (if (valid-number? id)
+    (mj/map2json (pdb/id (Long/valueOf id)))))
+
 
 (defn post-byuser
   [user pages]
   (println pages)
-  (let [page (- (valid-pages pages) 1)]
+  (let [page (- (mj/valid-pages pages) 1)]
     (println (type user) (type page))
     (if (valid-number? user)
       (id (Long/valueOf user) page)

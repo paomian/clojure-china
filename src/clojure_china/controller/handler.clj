@@ -21,11 +21,22 @@
 
 (defroutes app-routes
            (context "/v1" _
-                    (GET "/user/:username/post"
-                         {{user :username pages :pages} :params :as request} (pri request (result (pact/post-byuser user pages))))
+                    ;;按用户查询post
+                    (GET "/user/:user/post"
+                         {{user :user pages :pages} :params :as request} (pri request (result (pact/post-byuser user pages))))
+                    ;;按节点查询post
+                    (GET "/node/:node"
+                         {{node :node pages :pages} :params :as request} (pri request (result (pact/post-byuser node pages))))
+                    ;;post查询
+                    (GET "/post/:post"
+                         {{post :post} :params :as request} (pri requset (result (pact/post-query post))))
 
-                    (GET "/user/:username"
-                         {{user :username} :params :as request} (pri request (result (aact/user-query user))))
+                    ;;用户查询
+                    (GET "/user/:user"
+                         {{user :user} :params :as request} (pri request (result (aact/user-query user))))
+                    ;;用户注册
+                    (POST "/user"
+                          {{username :username email :email password :password} :params :as request} (pri request ()))
                     (GET "/:test" [test] (print test))
                     (POST "/login" [user pwd] (user-login user pwd))
                     (GET "/logout" [] (user-logout))

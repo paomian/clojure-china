@@ -4,19 +4,6 @@
             [clojure-china.controller.json :refer :all]
             [clojure-china.model.post.post :as pdb]))
 
-#_(defn- swich
-  [user pages func func1]
-  (if (valid-number? user)
-    (func (Long/valueOf user) pages)
-    (func1 user pages)))
-
-(str "{\"status\" : \"500\" \"message\" : \"no valid query args\"}")
-
-
-#_(defn postsbyuser
-  [user pages]
-  (swich user pages paging-byauthorid paging-byauthorname))
-
 (defn- id
   [user pages]
   (do (println user (type user))

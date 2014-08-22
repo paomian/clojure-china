@@ -1,46 +1,41 @@
-create table if not exists CC_USER
+CREATE TABLE IF NOT EXISTS USERS
 (
-  ID serial primary key,
-  USERNAME varchar(50) NOT NULL UNIQUE,
-  PASSWORD varchar(100) NOT NULL,
-  EMAIL varchar(100) NOT NULL,
-  IS_ADMIN boolean NOT NULL,
-  REGISTER_TIME timestamp without time zone,
-  LAST_LOGIN_TIME timestamp without time zone
+  ID          SERIAL PRIMARY KEY,
+  USERNAME    VARCHAR(50)  NOT NULL UNIQUE,
+  PASSWORD    VARCHAR(100) NOT NULL,
+  EMAIL       VARCHAR(100) NOT NULL,
+  IS_ADMIN    BOOLEAN      NOT NULL DEFAULT FALSE,
+  REGISTER_ON TIMESTAMP WITHOUT TIME ZONE,
+  LAST_LOGIN  TIMESTAMP WITHOUT TIME ZONE
 );
 
-create table if not exists CC_NODE
+CREATE TABLE IF NOT EXISTS NODES
 (
-  ID serial primary key,
-  NODE varchar(20) unique,
-  CREATE_TIME timestamp without time zone,
-  UPDATE_TIME timestamp without time zone
+  ID        SERIAL PRIMARY KEY,
+  NODE      VARCHAR(20) UNIQUE,
+  CREATE_ON TIMESTAMP WITHOUT TIME ZONE,
+  UPDATE_ON TIMESTAMP WITHOUT TIME ZONE
 );
 
-create table if not exists CC_POST
+CREATE TABLE IF NOT EXISTS POSTS
 (
-  ID serial primary key,
-  MARK integer,
-  AUTHOR varchar(50) NOT NULL references cc_user(id),
-  TITLE varchar(100) NOT NULL unique,
-  CONTENT text,
-  NODE varchar(50) references cc_node(id),
-  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','other')),
-  CREATE_TIME timestamp without time zone,
-  UPDATE_TIME timestamp without time zone
+  ID        SERIAL PRIMARY KEY,
+  MARK      INTEGER,
+  AUTHOR    VARCHAR(50)  NOT NULL REFERENCES USERS (id),
+  TITLE     VARCHAR(100) NOT NULL UNIQUE,
+  CONTENT   TEXT,
+  NODE      VARCHAR(50) REFERENCES NODES (id),
+  STATUS    VARCHAR(10) DEFAULT 'normal' CONSTRAINT check_status CHECK (status IN ('normal', 'is_delete', 'other')),
+  CREATE_ON TIMESTAMP WITHOUT TIME ZONE,
+  UPDATE_ON TIMESTAMP WITHOUT TIME ZONE
 );
 
-create table if not exists CC_REPLY
+CREATE TABLE IF NOT EXISTS REPLYS
 (
-  ID serial primary key,
-  POST varchar(50) references cc_post(id),
-  REPLY text,
-  STATUS varchar(10) CONSTRAINT check_status CHECK (status in ('normal','is_delete','good')),
-  CREATE_TIME timestamp without time zone,
-  UPDATE_TIME timestamp without time zone
+  ID        SERIAL PRIMARY KEY,
+  POST      VARCHAR(50) REFERENCES POSTS (id),
+  REPLY     TEXT,
+  STATUS    VARCHAR(10) DEFAULT 'normal' CONSTRAINT check_status CHECK (status IN ('normal', 'is_delete', 'good')),
+  CREATE_ON TIMESTAMP WITHOUT TIME ZONE,
+  UPDATE_ON TIMESTAMP WITHOUT TIME ZONE
 );
-
-create table if not exists POSTS_NODES
-(
-  POST_ID
-)

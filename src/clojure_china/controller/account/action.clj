@@ -1,8 +1,10 @@
 ;;用户登录验证，和相关处理
 (ns clojure-china.controller.account.action
   (:require [noir.session :as session]
+            [noir.cookies :as cookies]
+            [ring.util.response :as rr]
             [noir.validation :refer [valid-number?]]
-            [clojure-china.controller.json :refer :all]
+            [clojure-china.controller.json :as mj]
             [clojure-china.model.account.account :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
@@ -16,28 +18,28 @@
   (do (println user (type user))
       (if (adb/check-id user)
         (-> {}
-            (status 200)
-            (message "no value")
-            (map2json))
+            (mj/status 200)
+            (mj/message "no value")
+            (mj/map2json))
         (-> {}
-            (status 200)
-            (message "OK")
-            (users (adb/id-query user))
-            (map2json)))))
+            (mj/status 200)
+            (mj/message "OK")
+            (mj/users (adb/id-query user))
+            (mj/map2json)))))
 
 (defn- sname
   [^String user]
   (do (println user (type user))
       (if (adb/check-name user)
         (-> {}
-            (status 200)
-            (message "no value")
-            (map2json))
+            (mj/status 200)
+            (mj/message "no value")
+            (mj/map2json))
         (-> {}
-            (status 200)
-            (message "test")
-            (users (adb/name-query user))
-            (map2json)))))
+            (mj/status 200)
+            (mj/message "test")
+            (mj/users (adb/name-query user))
+            (mj/map2json)))))
 
 (defn user-query
   [user]
@@ -57,24 +59,51 @@
         (adb/update-lastlogintime (:id userinfo))
         (println (:id userinfo))
         (session/put! :username (:username userinfo))
-        ("恭喜您，登录成功！"))
+        (str "恭喜您，登录成功！"))
       (do
-        ("登录失败，用户名或密码不正确！")))))                             ;;在此加入flash机制
+        (str "登录失败，用户名或密码不正确！")))))                             ;;在此加入flash机制
 
 ;;用户注册
 (defn user-register
-  [username password r-password email]
+  [^String username ^String password ^String r-password ^String email]
   (if
       (= password r-password)
     (if (adb/check-name username)
       (do
         (println (str username password r-password email))
         (adb/create! username (encryptor password) email)
-        ("注册成功"))
-      ("注册失败，有相同用户名"))
-    ("注册失败！，您的两次输入的密码不匹配。")))
+        (mj/map2json {:code 200 :status "ok" :message "register success"}))
+      (mj/map2json {:code 200 :status "error" :message "the name is existd"}))
+    (mj/map2json {:code 200 :status "error" :message "other error"})))
 
 (defn user-logout []
   (do
     (session/clear!)
-    ("退出成功！")))
+    (str "退出成功！")))
+
+;;测试
+(defn test-user-login [user pwd]
+  (let [userinfo (first (adb/name-query user))]
+    (if
+        (.checkPassword (StrongPasswordEncryptor.) pwd (:password userinfo))
+      (do
+        (adb/update-lastlogintime (:id userinfo))
+        (println (:id userinfo))
+        (session/put! :username (:username userinfo))
+        (cookies/put! :username (:username userinfo))
+        (rr/redirect "/"))
+      (do
+        (str "登录失败，用户名或密码不正确！")))))
+
+;;用户注册
+(defn test-user-register
+  [^String username ^String password ^String r-password ^String email]
+  (if
+      (= password r-password)
+    (if (adb/check-name username)
+      (do
+        (println (str username password r-password email))
+        (adb/create! username (encryptor password) email)
+        (mj/map2json {:code 200 :status "ok" :message "register success"}))
+      (mj/map2json {:code 200 :status "error" :message "the name is existd"}))
+    (mj/map2json {:code 200 :status "error" :message "other error"})))

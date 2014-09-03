@@ -32,6 +32,8 @@
                                    }})
 ```
 
+by the way, don't forget use `redis-server` command to start up the redis server
+
 ###Ation
 
 - Befor you run the clojure-china,you must run some command like [this](https://github.com/paomian/clojure-china#before-runing)

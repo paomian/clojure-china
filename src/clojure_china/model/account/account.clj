@@ -2,9 +2,10 @@
   "对于用户的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [korma
-             [core :as k]]
+             [core :as k]]                                  ;todo
             [clj-time.local :as l]
             [clojure-china.model.dbconn :refer [db-spec]]
+            [clojure-china.model.dbconn :refer [connection]]
             [clojure-china.model.entitys :refer :all])
   (:import [java.sql Timestamp]
            [java.util Date]))
@@ -14,6 +15,11 @@
   "按照ID查询用户"
   (k/select users
             (k/where {:id id})))
+
+(defn id-query [^Integer id]
+  "ID查询用户"
+  (jdbc/query )
+  )
 
 (defn name-query
   "按照用户名查询用户"

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS POSTS
   TITLE      VARCHAR(100) NOT NULL UNIQUE,
   CONTENT    TEXT,
   NODE_ID    VARCHAR(50) REFERENCES NODES (id),
-  STATUS     VARCHAR(10) DEFAULT 'normal' CONSTRAINT check_status CHECK (status IN ('normal', 'is_deleted', 'other')),
+  STATUS     VARCHAR(10) DEFAULT 'normal' CONSTRAINT check_status CHECK (status IN ('normal', 'delete', 'other')),
   CREATED_ON TIMESTAMP WITH TIME ZONE,
   UPDATED_ON TIMESTAMP WITH TIME ZONE
 );
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS REPLYS
   ID         SERIAL PRIMARY KEY,
   POST       VARCHAR(50) REFERENCES POSTS (id),
   REPLY      TEXT,
-  STATUS     VARCHAR(10) DEFAULT 'normal' CONSTRAINT check_status CHECK (status IN ('normal', 'is_delete', 'good')),
+  STATUS     VARCHAR(10) DEFAULT 'normal' CONSTRAINT check_status CHECK (status IN ('normal', 'delete', 'good')),
   CREATED_ON TIMESTAMP WITH TIME ZONE,
   UPDATED_ON TIMESTAMP WITH TIME ZONE
 );

@@ -6,7 +6,9 @@
                config helpers)))
 
 (defn dbinit []
-  (migrate))
+  (do
+    (migrate)
+    (lobos.connectivity/close-global)))
 
 (defmigration users
               (up []

@@ -1,6 +1,6 @@
 (ns clojure-china.model.post.post
   "对于post的一些列操作"
-  (:import (java.security Timestamp)
+  (:import (java.sql Timestamp)
            (java.util Date))
   (:require [clojure.java.jdbc :as jdbc]
             [clj-time.local :as l]
@@ -32,7 +32,7 @@
     USERS.ID = POSTS.USER_ID WHERE USERS.ID = ? LIMIT ?, ?"
      userid (* pages page-size) page-size]))
 
-(defn by-user-id
+(defn by-user-name
   "
   按照所给user的name来查找post
   param:
@@ -69,7 +69,7 @@
   (db/query
     ["SELECT  FROM POST LEFT JOIN NODES ON
     NODE.ID = POST.NODE_ID WHERE NODES.NODENAME = ? LIMIT ?, ?"
-     id (* pages page-size) page-size]))
+     name (* pages page-size) page-size]))
 
 (defn create!
   "
@@ -117,5 +117,5 @@
   [^Integer id]
   (db/update! :posts
               {
-                :status "is_deleted"}
+                :status "delete"}
               ["id = ?" id]))

@@ -16,10 +16,10 @@
           (mj/posts (fun user pages))
           (mj/map2json)))))
 (def id
-  (result 200 "test" pdb/paging-byauthorid))
+  (result 200 "test" pdb/by-user-id))
 
 (def sname
-  (result 200 "test" pdb/paging-byauthorname))
+  (result 200 "test" pdb/by-user-name))
 
 (defn post-query
   [^String id]

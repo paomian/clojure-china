@@ -24,7 +24,7 @@
         (-> {}
             (mj/status 200)
             (mj/message "OK")
-            (mj/users (adb/id-query user))
+            (mj/users (adb/id user))
             (mj/map2json)))))
 
 (defn- sname
@@ -38,7 +38,7 @@
         (-> {}
             (mj/status 200)
             (mj/message "test")
-            (mj/users (adb/name-query user))
+            (mj/users (adb/name user))
             (mj/map2json)))))
 
 (defn user-query
@@ -52,7 +52,7 @@
 
 ;;用户登录
 (defn user-login [user pwd]
-  (let [userinfo (first (adb/name-query user))]
+  (let [userinfo (first (adb/name user))]
     (if
         (.checkPassword (StrongPasswordEncryptor.) pwd (:password userinfo))
       (do
@@ -83,7 +83,7 @@
 
 ;;测试
 (defn test-user-login [user pwd]
-  (let [userinfo (first (adb/name-query user))]
+  (let [userinfo (first (adb/name user))]
     (if
         (.checkPassword (StrongPasswordEncryptor.) pwd (:password userinfo))
       (do

@@ -8,6 +8,7 @@
 
 (defn timestamps [table]
   (-> table
+      (varchar :other 20)
       (timestamp :updated_on)
       (timestamp :created_on :not-null (default (now)))))
 

@@ -1,10 +1,10 @@
 (ns clojure-china.model.post.post
   "对于post的一些列操作"
-  (:import (java.sql Timestamp)
-           (java.util Date))
   (:require [clojure.java.jdbc :as jdbc]
             [clj-time.local :as l]
-            [clojure-china.model.dbutil :as db]))
+            [clojure-china.model.dbutil :as db])
+  (:import (java.sql Timestamp)
+           (java.util Date)))
 
 (def page-size 20)
 (def table "CC_POST")
@@ -47,7 +47,7 @@
 
 (defn by-node-id
   "
-  按照所给node的id来朝着post
+  按照所给node的id来查找post
   param:
     id    : node的id
     pages : 所需要的页数
@@ -60,7 +60,7 @@
 
 (defn by-node-name
   "
-  按照所给node的name来朝着post
+  按照所给node的name来查找post
   param:
     name  : node的name
     pages : 所需要的页数

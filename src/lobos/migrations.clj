@@ -18,9 +18,10 @@
                          (varchar :password 100 :not-null)
                          (varchar :email 100 :not-null)
                          (boolean :is_admin :not-null (default false))
-                         (timestamp :last_login_time)
+                         (timestamp :last_login)
+                         (timestamp :register_on :not-null (default (now)))
                          (varchar :alive 20 :not-null (default "normal"))
-                         (check :check_alive (in :alive ["normal" "delete" "look"])))))
+                         (check :check_alive (in :alive ["normal" "delete" "look" "other"])))))
               (down [] (drop (table :users))))
 
 (defmigration nodes
@@ -49,6 +50,6 @@
                     (tbl :replys
                          (text :reply)
                          (varchar :status 20)
-                         (check :check_status (in :status ["normal" "delete" "good"]))
+                         (check :check_status (in :status ["normal" "delete" "good" "other"]))
                          (refer-to :posts))))
               (down [] (drop (table :replys))))

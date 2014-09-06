@@ -44,16 +44,23 @@
                          {
                            {username :username email :email password :password}
                            :params :as request}
-                         (pri request (result (aact/register username password email)))))
+                         (pri request (result (aact/register username password email))))
+                    (POST "/user"
+                          {
+                            {username :username password :password}
+                            :params :as request}
+                          (pri request (result (aact/login username password))))
+                    (GET "/logout"
+                         request (pri request (result (aact/logout)))))
            (route/resources "/")
            (route/not-found "Not Found"))
-
 (def app
   (-> app-routes
       (handler/api)
       (session/wrap-noir-flash)
       (session/wrap-noir-session {:store (carmine-store session-conn {
-                                                                       :key-prefix "session"
+                                                                       :key-prefix      "session"
                                                                        :expiration-secs (* 60 60 24 30)
-                                                                       })})
+                                                                       })
+                                  :cookie-name "china"})
       (cookies/wrap-noir-cookies)))

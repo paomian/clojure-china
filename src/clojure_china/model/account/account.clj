@@ -1,7 +1,6 @@
 (ns clojure-china.model.account.account
   "对于用户的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
-            [clj-time.local :as l]
             [noir.validation :refer [valid-number?]]
 
             [clojure-china.model.dbutil :as db]
@@ -40,7 +39,7 @@
            (db/query
              [
                "SELECT
-                 ID,USERNAME,EMAIL,ADMIN,ALIVE,LAST_LOGIN,
+                 ID,USERNAME,PASSWORD,EMAIL,ADMIN,ALIVE,LAST_LOGIN,
                  CREATED_ON,UPDATED_ON,REGISTER_ON,OTHER
                FROM USERS
                  WHERE USERNAME = ?" name])

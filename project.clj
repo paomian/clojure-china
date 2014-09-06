@@ -7,7 +7,7 @@
                            [korma "0.3.3"]                  ;orm
                            [org.postgresql/postgresql "9.3-1100-jdbc41"] ;pgsql client
                            [com.mchange/c3p0 "0.9.5-pre8"]
-                           [com.taoensso/carmine "2.6.2"]   ;redis client
+                           [com.taoensso/carmine "2.7.0"]   ;redis client
                            [lib-noir "0.8.4"]               ;A set of utilities and helpers for building ring apps.
                            [org.jasypt/jasypt "1.7"]        ;JAVA加密包
                            [ring/ring-core "1.3.0"]         ;ring-core - essential functions for handling parameters, cookies and more

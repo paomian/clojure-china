@@ -17,7 +17,7 @@
                          (varchar :username 50 :not-null)
                          (varchar :password 100 :not-null)
                          (varchar :email 100 :not-null)
-                         (boolean :is_admin :not-null (default false))
+                         (boolean :admin :not-null (default false))
                          (timestamp :last_login)
                          (timestamp :register_on :not-null (default (now)))
                          (varchar :alive 20 :not-null (default "normal"))

@@ -2,6 +2,8 @@
   "对于用户的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [clj-time.local :as l]
+            [noir.validation :refer [valid-number?]]
+
             [clojure-china.model.dbutil :as db]
             [clojure-china.model.entitys :refer :all])
   (:import (java.sql Timestamp)
@@ -15,17 +17,45 @@
   param:
     id 用户的id
   "
-  [^Integer id]
-  (first (db/query ["SELECT ID,NAME,EMALI FROM USERS WHERE ID = ?" id])))
+  [id]
+  (first (try
+           (db/query
+             [
+               "SELECT
+                 ID,USERNAME,EMAIL,ADMIN,ALIVE,LAST_LOGIN,
+                 CREATED_ON,UPDATED_ON,REGISTER_ON,OTHER
+               FROM USERS
+                 WHERE ID = ?" id])
+           (catch Exception e
+             (.printStackTrace e)))))
 
-(defn name
+(defn uname
   "
   按照用户名查询用户
   param:
     name 用户的name
   "
-  [name]
-  (first (db/query ["SELECT ID,NAME,EMAIL FROM USERS WHERE USERNAME = ?" name])))
+  [^String name]
+  (first (try
+           (db/query
+             [
+               "SELECT
+                 ID,USERNAME,EMAIL,ADMIN,ALIVE,LAST_LOGIN,
+                 CREATED_ON,UPDATED_ON,REGISTER_ON,OTHER
+               FROM USERS
+                 WHERE USERNAME = ?" name])
+           (catch Exception e
+             (.printStackTrace e)))))
+
+(defn get-user
+  "
+  封装了id 和 name 函数
+  "
+  [user]
+  (if (valid-number? user)
+    (id (Long/valueOf user))
+    (uname user)))
+
 
 (defn check-name
   "
@@ -34,8 +64,14 @@
     name 用户的name
   "
   [^String name]
-  (empty? (db/query
-            ["SELECT ID FROM USERS WHERE USERNAME = ?" username])))
+  (empty? (try
+            (db/query
+              ["SELECT
+              ID
+             FROM USERS
+              WHERE USERNAME = ?" name])
+            (catch Exception e
+              (.printStackTrace e)))))
 
 (defn check-id
   "
@@ -44,8 +80,11 @@
     id 用户的id
   "
   [id]
-  (empty? (db/query
-            ["SELECT ID FROM USERS WHERE ID = ?" id])))
+  (empty? (try
+            (db/query
+              ["SELECT ID FROM USERS WHERE ID = ?" id])
+            (catch Exception e
+              (.printStackTrace e)))))
 
 (defn create!
   "
@@ -56,11 +95,14 @@
     email 用户的email
   "
   [name encrypted-password email]
-  (db/insert! :users
-              {
-                :username name
-               :password encrypted-password
-               :email    email}))
+  (try
+    (db/insert! :users
+                {
+                  :username name
+                  :password encrypted-password
+                  :email    email})
+    (catch Exception e
+      (.printStackTrace e))))
 
 (defn update!
   "
@@ -73,9 +115,12 @@
   "
   ;todo email的修改机制
   [username encrypted-password email]
-  (db/update! :users
-              {:password encrypted-password}
-              ["username = ?" username]))
+  (try
+    (db/update! :users
+                {:password encrypted-password}
+                ["username = ?" username])
+    (catch Exception e
+      (.printStackTrace e))))
 
 
 (defn update-lastlogintime
@@ -85,6 +130,9 @@
     id 需要修改的用户id
   "
   [id]
-  (db/update! :users
-              {:last_login_time (Timestamp. (.getTime (Date.)))}
-              ["id = ?" id]))
+  (try
+    (db/update! :users
+                {:last_login (Timestamp. (.getTime (Date.)))}
+                ["id = ?" id])
+    (catch Exception e
+      (.printStackTrace e))))

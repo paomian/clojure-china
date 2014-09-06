@@ -9,101 +9,82 @@
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
 (defn encryptor
-  "密码的加密"
+  "
+  密码的加密
+  param:
+    pwd : 明文密码
+  "
   [pwd]
   (.encryptPassword (StrongPasswordEncryptor.) pwd))
 
-(defn- id
-  [^Integer user]
-  (do (println user (type user))
-      (if (adb/check-id user)
-        (-> {}
-            (mj/status 200)
-            (mj/message "no value")
-            (mj/map2json))
-        (-> {}
-            (mj/status 200)
-            (mj/message "OK")
-            (mj/users (adb/id user))
-            (mj/map2json)))))
+(defn decryptor
+  "
+  解密
+  param:
+    pwd : 明文密码
+    mpwd: 加密密码
+  "
+  [pwd mpwd]
+  (.checkPassword (StrongPasswordEncryptor.) pwd mpwd))
 
-(defn- sname
+(defn get-user
+  "
+  查询用户
+  param:
+    user : 用户的id或者name
+  "
   [^String user]
-  (do (println user (type user))
-      (if (adb/check-name user)
-        (-> {}
-            (mj/status 200)
-            (mj/message "no value")
-            (mj/map2json))
-        (-> {}
-            (mj/status 200)
-            (mj/message "test")
-            (mj/users (adb/name user))
-            (mj/map2json)))))
+  (println user (type user))
+  (let [result-user (adb/get-user user)]
+    (if (not (empty? result-user))
+      (-> {}
+          (mj/status 200)
+          (mj/message "test")
+          (mj/users result-user)
+          (mj/map2json))
+      (-> {}
+          (mj/status 200)
+          (mj/message "no value")
+          (mj/map2json)))))
 
-(defn user-query
-  [user]
-  (println user)
-  (if (valid-number? user)
-    (id (Long/valueOf user))
-    (sname user)))
+(defn logout
+  "
+  用户注销
+  "
+  []
+  (session/clear!)
+  (mj/map2json {:code 200 :status "ok" :message "退出成功！"}))
 
-
-
-;;用户登录
-(defn user-login [user pwd]
-  (let [userinfo (first (adb/name user))]
+(defn login
+  "
+  用户登录
+  param:
+    user : 用户名
+    pwd : 用户明文密码
+  "
+  [username password]
+  (let [user (adb/uname username)]
     (if
-        (.checkPassword (StrongPasswordEncryptor.) pwd (:password userinfo))
+        (decryptor password (:password user))
       (do
-        (adb/update-lastlogintime (:id userinfo))
-        (println (:id userinfo))
-        (session/put! :username (:username userinfo))
-        (str "恭喜您，登录成功！"))
-      (do
-        (str "登录失败，用户名或密码不正确！")))))                             ;;在此加入flash机制
+        (println (:id user))
+        (adb/update-lastlogintime (:id user))
+        (session/put! :username (:username user))
+        (mj/map2json {:code 201 :status "ok" :message "login success"}))
+      (mj/map2json {:code 200 :status "error" :message "password or username error"}))))
 
 ;;用户注册
-(defn user-register
-  [^String username ^String password ^String r-password ^String email]
-  (if
-      (= password r-password)
-    (if (adb/check-name username)
-      (do
-        (println (str username password r-password email))
-        (adb/create! username (encryptor password) email)
-        (mj/map2json {:code 200 :status "ok" :message "register success"}))
-      (mj/map2json {:code 200 :status "error" :message "the name is existd"}))
-    (mj/map2json {:code 200 :status "error" :message "other error"})))
-
-(defn user-logout []
-  (do
-    (session/clear!)
-    (str "退出成功！")))
-
-;;测试
-(defn test-user-login [user pwd]
-  (let [userinfo (first (adb/name user))]
-    (if
-        (.checkPassword (StrongPasswordEncryptor.) pwd (:password userinfo))
-      (do
-        (adb/update-lastlogintime (:id userinfo))
-        (println (:id userinfo))
-        (session/put! :username (:username userinfo))
-        (cookies/put! :username (:username userinfo))
-        (rr/redirect "/"))
-      (do
-        (str "登录失败，用户名或密码不正确！")))))
-
-;;用户注册
-(defn test-user-register
-  [^String username ^String password ^String r-password ^String email]
-  (if
-      (= password r-password)
-    (if (adb/check-name username)
-      (do
-        (println (str username password r-password email))
-        (adb/create! username (encryptor password) email)
-        (mj/map2json {:code 200 :status "ok" :message "register success"}))
-      (mj/map2json {:code 200 :status "error" :message "the name is existd"}))
-    (mj/map2json {:code 200 :status "error" :message "other error"})))
+(defn register
+  "
+  用户注册
+  param:
+    username : 用户名
+    password : 用户明文密码
+    email : 用户email
+  "
+  [^String username ^String password ^String email]
+  (if (adb/check-name username)
+    (if (adb/create! username (encryptor password) email)
+      (mj/map2json {:code 200 :status "ok" :message "register success"})
+      (mj/map2json {:code 200 :status "error" :message "other error"}))
+    (mj/map2json {:code 200 :status "error" :message "the name is existd"})))

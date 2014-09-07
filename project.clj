@@ -1,6 +1,6 @@
 (defproject clojure-china "0.1"
             :description "This is the source code of Clojure China website."
-            :url "http://clojure-china.org"
+            :url "https://github.com/paomian/clojure-china"
             :dependencies [[org.clojure/clojure "1.6.0"]
                            [compojure "1.1.8"]
                            [org.clojure/java.jdbc "0.3.5"]  ;jdbc

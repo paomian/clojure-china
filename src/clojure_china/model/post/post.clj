@@ -16,8 +16,11 @@
     id post的id
   "
   [^Integer id]
-  (first (db/query
-           ["SELECT  FROM POSTS WHERE ID = ?" id])))
+  (first (try
+           (db/query
+             ["SELECT  FROM POSTS WHERE ID = ?" id])
+           (catch Exception e
+             (.printStackTrace e)))))
 
 (defn by-user-id
   "
@@ -27,10 +30,13 @@
     pages : 所需要的页数
   "
   [^Integer userid ^Integer pages]
-  (db/query
-    ["SELECT  FROM POSTS LEFT JOIN USERS ON
+  (try
+    (db/query
+      ["SELECT  FROM POSTS LEFT JOIN USERS ON
     USERS.ID = POSTS.USER_ID WHERE USERS.ID = ? LIMIT ?, ?"
-     userid (* pages page-size) page-size]))
+       userid (* pages page-size) page-size])
+    (catch Exception e
+      (.printStackTrace e))))
 
 (defn by-user-name
   "
@@ -40,10 +46,12 @@
     pages   : 所需要的页数
   "
   [^Integer username ^Integer pages]
-  (db/query
-    ["SELECT  FROM POST LEFT JOIN USERS ON
+  (try (db/query
+         ["SELECT  FROM POST LEFT JOIN USERS ON
     USERS.ID = POSTS.USER_ID WHERE USERS.USERNAME = ? LIMIT ?, ?"
-     username (* pages page-size) pages]))
+          username (* pages page-size) pages])
+       (catch Exception e
+         (.printStackTrace e))))
 
 (defn by-node-id
   "
@@ -53,10 +61,13 @@
     pages : 所需要的页数
   "
   [^Integer id ^Integer pages]
-  (db/query
-    ["SELECT  FROM POST LEFT JOIN NODES ON
+  (try
+    (db/query
+      ["SELECT  FROM POST LEFT JOIN NODES ON
     NODE.ID = POST.NODE_ID WHERE NODES.ID = ? LIMIT ?, ?"
-     id (* pages page-size) page-size]))
+       id (* pages page-size) page-size])
+    (catch Exception e
+      (.printStackTrace e))))
 
 (defn by-node-name
   "
@@ -66,10 +77,13 @@
     pages : 所需要的页数
   "
   [^Integer name ^Integer pages]
-  (db/query
-    ["SELECT  FROM POST LEFT JOIN NODES ON
+  (try
+    (db/query
+      ["SELECT  FROM POST LEFT JOIN NODES ON
     NODE.ID = POST.NODE_ID WHERE NODES.NODENAME = ? LIMIT ?, ?"
-     name (* pages page-size) page-size]))
+       name (* pages page-size) page-size])
+    (catch Exception e
+      (.printStackTrace e))))
 
 (defn create!
   "
@@ -82,15 +96,18 @@
   "
   [^String title ^String content
    ^Integer userid ^Integer nodeid]
-  (db/insert! :posts
-              {
-                :title      title
-                :content    content
-                :user_id    userid
-                :node_id    nodeid
-                :created_on (Timestamp. (.getTime (Date.)))
-                :updated_on (Timestamp. (.getTime (Date.)))
-                }))
+  (try
+    (db/insert! :posts
+                {
+                  :title      title
+                  :content    content
+                  :user_id    userid
+                  :node_id    nodeid
+                  :created_on (Timestamp. (.getTime (Date.)))
+                  :updated_on (Timestamp. (.getTime (Date.)))
+                  })
+    (catch Exception e
+      (.printStackTrace e))))
 
 (defn update!
   "
@@ -102,11 +119,14 @@
   "
   [^String title ^String content
    ^Integer id]
-  (db/update! :posts
-              {
-                :title   title
-                :content content}
-              ["id=?" id]))
+  (try
+    (db/update! :posts
+                {
+                  :title   title
+                  :content content}
+                ["id=?" id])
+    (catch Exception e
+      (.printStackTrace e))))
 
 (defn delete!
   "
@@ -115,7 +135,10 @@
     id int post的id
   "
   [^Integer id]
-  (db/update! :posts
-              {
-                :status "delete"}
-              ["id = ?" id]))
+  (try
+    (db/update! :posts
+                {
+                  :status "delete"}
+                ["id = ?" id])
+    (catch Exception e
+      (.printStackTrace e))))

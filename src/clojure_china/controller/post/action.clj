@@ -4,6 +4,10 @@
             [clojure-china.controller.json :as mj]
             [clojure-china.model.post.post :as pdb]))
 
+(def msg {
+
+           })
+
 (defn- result
   [status message fun]
   (fn
@@ -18,20 +22,20 @@
 (def id
   (result 200 "test" pdb/by-user-id))
 
-(def sname
+(def pname
   (result 200 "test" pdb/by-user-name))
 
-(defn post-query
+(defn query
   [^String id]
   (if (valid-number? id)
     (mj/map2json (pdb/id (Long/valueOf id)))))
 
 
-(defn post-byuser
+(defn by-user
   [user pages]
   (println pages)
   (let [page (- (mj/valid-pages pages) 1)]
     (println (type user) (type page))
     (if (valid-number? user)
       (id (Long/valueOf user) page)
-      (sname user page))))
+      (pname user page))))

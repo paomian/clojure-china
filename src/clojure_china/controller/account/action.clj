@@ -8,6 +8,25 @@
             [clojure-china.model.account.account :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
+(def msg {
+           :no-value         "您请求的数据不存在"
+           :logout           "注销成功"
+           :login-success    "恭喜您，登录成功"
+           :pwd-or-un-err    "对不起，请检查你输入的用户名或密码是否有误"
+           :name-existd      "对不起，你输入的用户名已存在，请更换后在尝试提交"
+           :register-success "恭喜你，注册成功"
+           :other            "其他错误，请重试"
+           })
+
+(def code {
+            :ok 200
+            })
+
+(def statuc {
+              :ok    "ok"
+              :error "error"
+              })
+
 (defn encryptor
   "
   密码的加密
@@ -53,7 +72,7 @@
   "
   []
   (session/clear!)
-  (mj/map2json {:code 200 :status "ok" :message "退出成功！"}))
+  {:code 200 :status "ok" :message "退出成功！"})
 
 (defn login
   "
@@ -70,8 +89,8 @@
         (println (:id user))
         (adb/update-lastlogintime (:id user))
         (session/put! :username (:username user))
-        (mj/map2json {:code 201 :status "ok" :message "login success"}))
-      (mj/map2json {:code 200 :status "error" :message "password or username error"}))))
+        {:code 201 :status "ok" :message "login success"})
+      {:code 200 :status "error" :message "password or username error"})))
 
 ;;用户注册
 (defn register
@@ -85,6 +104,18 @@
   [^String username ^String password ^String email]
   (if (adb/check-name username)
     (if (adb/create! username (encryptor password) email)
-      (mj/map2json {:code 200 :status "ok" :message "register success"})
-      (mj/map2json {:code 200 :status "error" :message "other error"}))
-    (mj/map2json {:code 200 :status "error" :message "the name is existd"})))
+      {:code 200 :status "ok" :message "register success"}
+      {:code 200 :status "error" :message "other error"})
+    {:code 200 :status "error" :message "the name is existd"}))
+
+;;尝试改写注册
+;todo
+(defn- register
+  [username password email]
+  (let [m (if (adb/check-name username)
+            (if (adb/create! username (encryptor password) email)
+              (msg :register-success)
+              (msg :other))
+            (msg :name-existd))]
+    (assoc {} :message m
+              )))

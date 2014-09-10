@@ -8,16 +8,17 @@
             [clojure-china.model.account.account :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
-(def msg {
-           :no-value         "您请求的数据不存在"
+(def smsg  {
            :logout           "注销成功"
            :login-success    "恭喜您，登录成功"
-           :pwd-or-un-err    "对不起，请检查你输入的用户名或密码是否有误"
-           :name-existd      "对不起，你输入的用户名已存在，请更换后在尝试提交"
            :register-success "恭喜你，注册成功"
-           :other            "其他错误，请重试"
            })
-
+(def emsg {
+            :no-value         "您请求的数据不存在"
+            :pwd-or-un-err    "对不起，请检查你输入的用户名或密码是否有误"
+            :name-existd      "对不起，你输入的用户名已存在，请更换后在尝试提交"
+            :other            "其他错误，请重试"
+            })
 (def code {
             :ok 200
             })
@@ -118,12 +119,13 @@
               (msg :other))
             (msg :name-existd))])
     (-> {}
-        (fn [map] (if (adb/check-name username)
+        (fn [m] (if (adb/check-name username)
                     (if (adb/create! username (encryptor password) email)
-                      (assoc map :status (status :ok)
+                      (assoc m :status (status :ok)
                                  :message (msg :register-success))
-                      (assoc map :status (status :ok)
+                      (assoc m :status (status :error)
                                  :message (msg :other)))
-                    (assoc map :status (status :ok)
+                    (assoc m :status (status :error)
                                :message (msg :name-existd))))
-        (fn [map] (assoc map :code (code :ok)))))
+        (fn [m] (assoc m :code (if (= (status :ok) (m :status))
+                                 ())))))

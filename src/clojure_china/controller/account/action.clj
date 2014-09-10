@@ -22,7 +22,7 @@
             :ok 200
             })
 
-(def statuc {
+(def status {
               :ok    "ok"
               :error "error"
               })
@@ -116,6 +116,14 @@
             (if (adb/create! username (encryptor password) email)
               (msg :register-success)
               (msg :other))
-            (msg :name-existd))]
-    (assoc {} :message m
-              )))
+            (msg :name-existd))])
+    (-> {}
+        (fn [map] (if (adb/check-name username)
+                    (if (adb/create! username (encryptor password) email)
+                      (assoc map :status (status :ok)
+                                 :message (msg :register-success))
+                      (assoc map :status (status :ok)
+                                 :message (msg :other)))
+                    (assoc map :status (status :ok)
+                               :message (msg :name-existd))))
+        (fn [map] (assoc map :code (code :ok)))))

@@ -25,15 +25,15 @@
                     ;;按用户查询post
                     (GET "/user/:user/post"
                          {{user :user pages :pages} :params :as request}
-                         (pri request (result (pact/post-byuser user pages))))
+                         (pri request (result (pact/by-user user pages))))
                     ;;按节点查询post
                     (GET "/node/:node"
                          {{node :node pages :pages} :params :as request}
-                         (pri request (result (pact/post-byuser node pages))))
+                         (pri request (result (pact/by-user node pages)))) ;todo post按照需求查询
                     ;;post查询
                     (GET "/post/:post"
                          {{post :post} :params :as request}
-                         (pri request (result (pact/post-query post))))
+                         (pri request (result (pact/query post))))
 
                     ;;用户查询
                     (GET "/user/:user"

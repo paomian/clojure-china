@@ -1,6 +1,8 @@
 (ns clojure-china.model.dbutil
   (:require [clojure.java.jdbc :as j]
-            [clojure-china.model.dbconn :as conn]))
+            [clojure-china.model.dbconn :as conn])
+
+  (:import (java.util.concurrent Executors)))
 
 (defmacro query
   "
@@ -73,3 +75,19 @@
   [table condition]
   (j/delete! (conn/connection) table
              condition))
+
+(def  sql-tpool
+  Executors/newFixedThreadPool (.availableProcessors (Runtime/getRuntime)))
+
+(def sql-agent (agent 0
+                      :error-mode :continue
+                      :error-handler (fn [agent e]
+                                       (.println System/out (.getMessage e)))))
+
+(defn gogo
+  "使用agetn异步提交数据修改"
+  [exec]
+  (send-via sql-tpool
+            sql-agent
+            (fn [a] (if exec
+                      (inc a)))))

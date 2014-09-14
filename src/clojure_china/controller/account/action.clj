@@ -111,7 +111,7 @@
 
 ;;尝试改写注册
 ;todo
-(defn- register
+#_(defn- register
   [username password email]
   (let [m (if (adb/check-name username)
             (if (adb/create! username (encryptor password) email)

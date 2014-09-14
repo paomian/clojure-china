@@ -35,14 +35,8 @@
 
 (defn valid-pages
   [pages]
-  (if pages
+  (if (number? pages)
+    pages
     (if (valid-number? pages)
-      (Long/valueOf pages)
-      1)
-    1))
+      (Long/valueOf pages))))
 
-(defn result [s]
-  (assoc
-      {:status  200
-       :headers {"Content-Type" "application/json; charset=utf-8"}}
-    :body s))

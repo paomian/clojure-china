@@ -1,4 +1,4 @@
-(defproject clojure-china "0.1"
+(defproject clojure-china "0.2"
             :description "This is the source code of Clojure China website."
             :url "https://github.com/paomian/clojure-china"
             :dependencies [[org.clojure/clojure "1.6.0"]

@@ -8,18 +8,22 @@
             [clojure-china.model.account.account :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
-(def msg {
-           :no-value         "您请求的数据不存在"
-           :logout           "注销成功"
-           :login-success    "恭喜您，登录成功"
-           :pwd-or-un-err    "对不起，请检查你输入的用户名或密码是否有误"
-           :name-existd      "对不起，你输入的用户名已存在，请更换后在尝试提交"
-           :register-success "恭喜你，注册成功"
-           :other            "其他错误，请重试"
-           })
+(def okmsg {
+             :logout           "注销成功"
+             :login-success    "恭喜您，登录成功"
+             :register-success "恭喜你，注册成功"
+             })
+(def errmsg {
+              :no-value      "您请求的数据不存在"
+              :pwd-or-un-err "对不起，请检查你输入的用户名或密码是否有误"
+              :name-existd   "对不起，你输入的用户名已存在，请更换后在尝试提交"
+              :other         "其他错误，请重试"
+              })
 
 (def code {
             :ok 200
+            :created 201
+            :accepted 202
             })
 
 (def status {
@@ -82,15 +86,17 @@
     pwd : 用户明文密码
   "
   [username password]
-  (let [user (adb/uname username)]
-    (if
-        (decryptor password (:password user))
-      (do
-        (println (:id user))
-        (adb/update-lastlogintime (:id user))
-        (session/put! :username (:username user))
-        {:code 201 :status "ok" :message "login success"})
-      {:code 200 :status "error" :message "password or username error"})))
+  (if (session/get username)
+    (let [user (adb/uname username)]
+      (if
+          (decryptor password (:password user))
+        (do
+          (println (:id user))
+          (adb/update-lastlogintime (:id user))
+          (session/put! :username (:username user))
+          {:code 201 :status "ok" :message "login success"})
+        {:code 200 :status "error" :message "password or username error"}))
+    {:code 200 :status "error" :message "user is logined"}))
 
 ;;用户注册
 (defn register

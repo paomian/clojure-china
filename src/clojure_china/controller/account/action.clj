@@ -91,7 +91,7 @@
         (do
           (println (:id user))
           (adb/update-lastlogintime (:id user))
-          (session/put! :username (:username user))
+          (session/put! :username (:id user))
           {:code 201 :status "ok" :message "login success"})
         {:code 200 :status "error" :message "password or username error"}))
     {:code 200 :status "error" :message "user is logined"}))

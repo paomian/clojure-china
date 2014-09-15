@@ -52,18 +52,19 @@
                     (GET "/logout"
                          request (pri request (aact/logout))))
            (route/resources "/")
-           (route/not-found "Not Found"))
+           (route/not-found "<h1 style=\"text-align: center;\">if you get here, you would be lost</h1>"))
 
 (defn wrap-json [handler content-type]
   (fn [request]
     (let [response (handler request)]
       (println response)
-      (assoc-in response [:headers "Content-Type"] content-type))))
+      (if (not= (:status response) 404)
+        (assoc-in response [:headers "Content-Type"] content-type)
+        response))))
 
 (def app
   (-> china-routes
       (handler/api)
-      #_(rc/wrap-content-type)
       (session/wrap-noir-flash)
       (session/wrap-noir-session {:store       (carmine-store session-conn {
                                                                              :key-prefix      "session"

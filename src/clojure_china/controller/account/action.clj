@@ -63,7 +63,13 @@
       (-> {}
           (mj/status 200)
           (mj/message "test")
-          (mj/users result-user))
+          (mj/users (dissoc result-user
+                            :password
+                            :other
+                            :alive
+                            :updated_on
+                            :last_login
+                            :admin)))
       (-> {}
           (mj/status 200)
           (mj/message "no value")))))

@@ -13,23 +13,20 @@
             [clojure-china.controller.account.action :refer :all]
             [clojure-china.controller.post.action :as pact]
             [clojure-china.controller.account.action :as aact]
-            [clojure-china.controller.json :refer [result]]
-            [clojure-china.model.post.post]))
+            [clojure-china.controller.json :as cj]))
 
-(defmacro pri [request & body]
-  `(do
-     (println ~request)
-     ~@body)
-  )
+(defn pri [request body]
+  (println request)
+  (cj/map2json body))
 
-(defroutes app-routes
+(defroutes china-routes
            (context "/v1" _
                     ;;按用户查询post
                     (GET "/user/:user/post"
                          {{user :user pages :pages} :params :as request}
                          (pri request (pact/by-user user pages)))
                     ;;按节点查询post
-                    (GET "/node/:node"
+                    (GET "/node/:node/post"
                          {{node :node pages :pages} :params :as request}
                          (pri request (pact/by-node node pages))) ;todo post按照需求查询
                     ;;post查询
@@ -56,9 +53,17 @@
                          request (pri request (aact/logout))))
            (route/resources "/")
            (route/not-found "Not Found"))
+
+(defn wrap-json [handler content-type]
+  (fn [request]
+    (let [response (handler request)]
+      (println response)
+      (assoc-in response [:headers "Content-Type"] content-type))))
+
 (def app
-  (-> app-routes
+  (-> china-routes
       (handler/api)
+      #_(rc/wrap-content-type)
       (session/wrap-noir-flash)
       (session/wrap-noir-session {:store       (carmine-store session-conn {
                                                                              :key-prefix      "session"
@@ -66,4 +71,4 @@
                                                                              })
                                   :cookie-name "china"})
       (cookies/wrap-noir-cookies)
-      (rc/wrap-content-type "text/json")))
+      (wrap-json "text/json")))

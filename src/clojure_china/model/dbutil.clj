@@ -76,8 +76,8 @@
   (j/delete! (conn/connection) table
              condition))
 
-(def  sql-tpool
-  Executors/newFixedThreadPool (.availableProcessors (Runtime/getRuntime)))
+(def sql-tpool
+  (Executors/newFixedThreadPool (.availableProcessors (Runtime/getRuntime))))
 
 (def sql-agent (agent 0
                       :error-mode :continue

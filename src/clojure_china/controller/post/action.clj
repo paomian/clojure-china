@@ -9,16 +9,12 @@
            })
 
 (defn- result
-  [status message fun]
-  (fn
-    [user pages]
-    (do
-      (println user (type user))
-      (-> {}
-          (mj/status status)
-          (mj/message message)
-          (mj/posts (fun user pages))
-          (mj/map2json)))))
+  [status message res]
+  (println res)
+  (-> {}
+      (mj/status status)
+      (mj/message message)
+      (mj/posts res)))
 
 (defn query
   "
@@ -28,7 +24,7 @@
   "
   [^String id]
   (if (valid-number? id)
-    (mj/map2json (pdb/id (Long/valueOf id)))))
+    (pdb/id (Long/valueOf id))))
 
 
 (defn by-user

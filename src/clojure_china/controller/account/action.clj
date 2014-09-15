@@ -63,12 +63,10 @@
       (-> {}
           (mj/status 200)
           (mj/message "test")
-          (mj/users result-user)
-          (mj/map2json))
+          (mj/users result-user))
       (-> {}
           (mj/status 200)
-          (mj/message "no value")
-          (mj/map2json)))))
+          (mj/message "no value")))))
 
 (defn logout
   "

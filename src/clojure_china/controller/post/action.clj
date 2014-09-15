@@ -1,6 +1,6 @@
 (ns clojure-china.controller.post.action
   (:require [noir.validation :refer [valid-number?]]
-
+            [noir.session :as session]
             [clojure-china.controller.json :as mj]
             [clojure-china.model.post.post :as pdb]))
 
@@ -63,3 +63,10 @@
      (if (valid-number? node)
        (result 200 "test" (pdb/by-node-id node page))
        (result 200 "test" (pdb/by-node-name node page))))))
+
+(defn create!
+  ""
+  {:arglists }
+  [title content node]
+  (if-let [user (session/get :username)]
+  (pdb/create! title content user node)))

@@ -4,7 +4,7 @@
             [noir.cookies :as cookies]
             [ring.util.response :as rr]
             [noir.validation :refer [valid-number?]]
-            [clojure-china.controller.json :as mj]
+            [clojure-china.controller.util :as mj]
             [clojure-china.model.account.account :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
@@ -91,7 +91,7 @@
         (do
           (println (:id user))
           (adb/update-lastlogintime (:id user))
-          (session/put! :username (:id user))
+          (session/put! :userid (:id user))
           {:code 201 :status "ok" :message "login success"})
         {:code 200 :status "error" :message "password or username error"}))
     {:code 200 :status "error" :message "user is logined"}))

@@ -1,4 +1,4 @@
-(ns clojure-china.controller.json
+(ns clojure-china.controller.util
   "json的相关事宜"
   (:require [noir.validation :refer [valid-number?]]
             [cheshire.core :refer :all]
@@ -33,7 +33,7 @@
   [m c]
   (assoc m :created_on c))
 
-(defn valid-pages
+(defn valid-n
   [pages]
   (if (number? pages)
     pages

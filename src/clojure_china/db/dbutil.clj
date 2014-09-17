@@ -1,6 +1,6 @@
-(ns clojure-china.model.dbutil
+(ns clojure-china.db.dbutil
   (:require [clojure.java.jdbc :as j]
-            [clojure-china.model.dbconn :as conn])
+            [clojure-china.db.dbconn :as conn])
 
   (:import (java.util.concurrent Executors)))
 

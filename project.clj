@@ -19,7 +19,7 @@
                                                         com.sun.jdmk/jmxtools
                                                         com.sun.jmx/jmxri]]]
             :plugins [[lein-ring "0.8.10"]]
-            :ring {:handler clojure-china.controller.handler/app
+            :ring {:handler clojure-china.handler.handler/app
                    :init    lobos.migrations/dbinit}
             :profiles
             {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]

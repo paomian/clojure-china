@@ -1,4 +1,4 @@
-(ns clojure-china.controller.handler
+(ns clojure-china.handler.handler
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [ring.middleware
@@ -9,48 +9,47 @@
             [compojure.core :refer :all]
             [taoensso.carmine.ring :refer :all]
 
-            [clojure-china.model.redis :refer [session-conn]]
-            [clojure-china.controller.account.action :refer :all]
-            [clojure-china.controller.post.action :as pact]
-            [clojure-china.controller.account.action :as aact]
-            [clojure-china.controller.util :as cj]))
+            [clojure-china.db.redis :refer [session-conn]]
+            [clojure-china.post.controller :as pc]
+            [clojure-china.account.controller :as ac]
+            [clojure-china.handler.util :as hu]))
 
 (defn pri [request body]
   (println request)
-  (cj/map2json body))
+  (hu/map2json body))
 
 (defroutes china-routes
            (context "/v1" _
                     ;;按用户查询post
                     (GET "/user/:user/post"
                          {{user :user pages :pages} :params :as request}
-                         (pri request (pact/by-user user pages)))
+                         (pri request (pc/by-user user pages)))
                     ;;按节点查询post
                     (GET "/node/:node/post"
                          {{node :node pages :pages} :params :as request}
-                         (pri request (pact/by-node node pages))) ;todo post按照需求查询
+                         (pri request (pc/by-node node pages))) ;todo post按照需求查询
                     ;;post查询
                     (GET "/post/:post"
                          {{post :post} :params :as request}
-                         (pri request (pact/query post)))
+                         (pri request (pc/query post)))
 
                     ;;用户查询
                     (GET "/user/:user"
                          {{user :user} :params :as request}
-                         (pri request (aact/get-user user)))
+                         (pri request (ac/get-user user)))
                     ;;用户注册
                     (PUT "/user"
                          {
                            {username :username email :email password :password}
                            :params :as request}
-                         (pri request (aact/register username password email)))
+                         (pri request (ac/register username password email)))
                     (POST "/user"
                           {
                             {username :username password :password}
                             :params :as request}
-                          (pri request (aact/login username password)))
+                          (pri request (ac/login username password)))
                     (GET "/logout"
-                         request (pri request (aact/logout))))
+                         request (pri request (ac/logout))))
            (route/resources "/")
            (route/not-found "Not Found"))
 

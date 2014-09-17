@@ -40,6 +40,7 @@
     (if (valid-number? pages)
       (Long/valueOf pages))))
 
+;;todo 写一个wrap handler 来验证用户的权限 重构权限管理的所有模块
 
 #_(defmacro with-validations
   "triggers a validation before evaluating 'body', if the validation fails, throws an InvalidPlayerOperation.

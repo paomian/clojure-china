@@ -90,8 +90,9 @@
              (pdb/delete! (Long/valueOf id))
              (assoc result :status "ok"))
            (assoc result :message (emsg :not-own)))
-         (assoc result :message (emsg :post-id-error))))
-     (assoc result :message (emsg :not-login)))))
+         (assoc result :message (emsg :post-id-error)))
+       (assoc result :message (emsg :not-login)))
+     (assoc result :message (emsg :post-id-error)))))
 
 (defn update!
   ""

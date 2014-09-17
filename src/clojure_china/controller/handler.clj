@@ -13,7 +13,7 @@
             [clojure-china.controller.account.action :refer :all]
             [clojure-china.controller.post.action :as pact]
             [clojure-china.controller.account.action :as aact]
-            [clojure-china.controller.json :as cj]))
+            [clojure-china.controller.util :as cj]))
 
 (defn pri [request body]
   (println request)

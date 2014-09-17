@@ -1,8 +1,8 @@
-(ns clojure-china.model.post.post
+(ns clojure-china.post.model
   "对于post的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [clj-time.local :as l]
-            [clojure-china.model.dbutil :as db])
+            [clojure-china.db.dbutil :as db])
   (:import (java.sql Timestamp)
            (java.util Date)))
 

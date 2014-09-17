@@ -14,3 +14,5 @@ redis.clj
 tmp.html
 /.idea
 mytmp
+/resources
+*.java

@@ -1,4 +1,4 @@
-(ns clojure-china.config)
+(ns clojure-china.handler.config)
 
 ;; Get the application env keyword, default is :dev
 (defn env []

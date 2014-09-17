@@ -1,4 +1,4 @@
-(defproject clojure-china "0.1"
+(defproject clojure-china "0.2"
             :description "This is the source code of Clojure China website."
             :url "https://github.com/paomian/clojure-china"
             :dependencies [[org.clojure/clojure "1.6.0"]
@@ -19,7 +19,7 @@
                                                         com.sun.jdmk/jmxtools
                                                         com.sun.jmx/jmxri]]]
             :plugins [[lein-ring "0.8.10"]]
-            :ring {:handler clojure-china.controller.handler/app
+            :ring {:handler clojure-china.handler.handler/app
                    :init    lobos.migrations/dbinit}
             :profiles
             {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]

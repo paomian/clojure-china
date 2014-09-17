@@ -1,5 +1,5 @@
 (ns lobos.migrations
-  (:require [clojure-china.model.dbconn :refer [db-spec]])
+  (:require [clojure-china.db.dbconn :refer [db-spec]])
   (:refer-clojure :exclude [alter drop
                             bigint boolean char double float time])
   (:use (lobos [migration :only [defmigration]] core schema

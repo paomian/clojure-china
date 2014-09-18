@@ -1,10 +1,9 @@
-(ns clojure-china.model.account.account
+(ns clojure-china.account.model
   "对于用户的一些列操作"
   (:require [clojure.java.jdbc :as jdbc]
             [noir.validation :refer [valid-number?]]
 
-            [clojure-china.model.dbutil :as db]
-            [clojure-china.model.entitys :refer :all])
+            [clojure-china.db.dbutil :as db])
   (:import (java.sql Timestamp)
            (java.util Date)))
 

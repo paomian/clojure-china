@@ -1,8 +1,8 @@
-(ns clojure-china.controller.post.action
+(ns clojure-china.post.controller
   (:require [noir.validation :refer [valid-number?]]
             [noir.session :as session]
-            [clojure-china.controller.util :as cu]
-            [clojure-china.model.post.post :as pdb]))
+            [clojure-china.handler.util :as cu]
+            [clojure-china.post.model :as pdb]))
 
 (def emsg {
             :other "other error"
@@ -70,25 +70,16 @@
 
 (defn create!
   ""
-  {:arglists}
+  {:arglists '([title content node])}
   [^String title ^String content ^String node]
   (if-let [user (session/get :userid)]
     (assoc {:code 200 :status "ok"} :message (pdb/create! title content user node))
     {:code 200 :status "error" :message "未登录"}))
 
+
 (defn delete!
   ""
-  {:arglists}
-  [^String id]
-  (if-let [user (session/get :userid)]
-    (if-let [post (pdb/id id)]
-      (if (= user (post :user_id))
-        (assoc {:code 200 :status "ok" } :message (pdb/delete! id))
-        {:code 200 :status "error" :message "you can't delete this post"})
-      {})))
-(defn delete!
-  ""
-  {:arglists}
+  {:arglists '([id])}
   [^String id]
   (if (valid-number? id)
    (let [result {:code 200 :status "error" :messag "delete success"}]
@@ -99,12 +90,13 @@
              (pdb/delete! (Long/valueOf id))
              (assoc result :status "ok"))
            (assoc result :message (emsg :not-own)))
-         (assoc result :message (emsg :post-id-error))))
-     (assoc result :message (emsg :not-login)))))
+         (assoc result :message (emsg :post-id-error)))
+       (assoc result :message (emsg :not-login)))
+     (assoc result :message (emsg :post-id-error)))))
 
 (defn update!
   ""
-  {:arglists}
+  {:arglists '([title content id])}
   [^String title ^String content
    ^String id]
   (if-let [user (session/get :userid)]

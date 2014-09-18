@@ -1,11 +1,11 @@
 ;;用户登录验证，和相关处理
-(ns clojure-china.controller.account.action
+(ns clojure-china.account.controller
   (:require [noir.session :as session]
             [noir.cookies :as cookies]
             [ring.util.response :as rr]
             [noir.validation :refer [valid-number?]]
-            [clojure-china.controller.util :as mj]
-            [clojure-china.model.account.account :as adb])
+            [clojure-china.handler.util :as mj]
+            [clojure-china.account.model :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
 (def okmsg {

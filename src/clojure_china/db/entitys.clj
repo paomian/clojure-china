@@ -1,4 +1,4 @@
-(ns clojure-china.model.entitys
+(ns clojure-china.db.entitys
   (:require [clojure.java.jdbc :as jdbc]
             [korma
              [core :as k]

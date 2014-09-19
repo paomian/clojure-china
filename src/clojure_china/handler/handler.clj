@@ -1,8 +1,7 @@
 (ns clojure-china.handler.handler
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-            [ring.middleware
-             [content-type :as rc]]
+
             [noir.session :as session]
             [noir.cookies :as cookies]
             [noir.validation :refer [valid-number?]]
@@ -53,13 +52,7 @@
            (route/resources "/")
            (route/not-found "<h1 style=\"text-align: center;\">if you get here, you would be lost</h1>"))
 
-(defn wrap-json [handler content-type]
-  (fn [request]
-    (let [response (handler request)]
-      (println response)
-      (if (not= (:status response) 404)
-        (assoc-in response [:headers "Content-Type"] content-type)
-        response))))
+
 
 (def app
   (-> china-routes
@@ -71,4 +64,4 @@
                                                                              })
                                   :cookie-name "china"})
       (cookies/wrap-noir-cookies)
-      (wrap-json "text/json")))
+      (hu/wrap-json "text/json")))

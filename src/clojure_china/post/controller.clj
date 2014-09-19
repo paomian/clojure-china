@@ -94,6 +94,40 @@
        (assoc result :message (emsg :not-login)))
      (assoc result :message (emsg :post-id-error)))))
 
+(defn delete!
+  ""
+  [^String id]
+  (let [result {:code 200 :status "error" :message "delete success"}
+        nid (Long/valueOf id)]
+    (if (valid-number? id)
+      (if-let [user (session/get :userid)]
+        (let [post (pdb/id nid)]
+          (cond
+            (= (post :userid) user) (do
+                                      (pdb/delete! id)
+                                      (assoc result :status "ok"))
+            (not= (post :userid) user) (assoc :message "not nide")
+            (= post nil) (assoc :message "id error"))))
+      (assoc :message "id error"))))
+
+(defn delete!
+  {:arglists '([id])}
+  [^String id]
+  (-> {}
+      (fn [m] (if-let [user (session/get :userid)]
+                (assoc m :status {:userid user})
+                (assoc m :error {:message (emsg :not-login)})))
+      (fn [m] (if-let [data (get m :status)]
+                (let [post (pdb/id id)]
+                  (cond
+                    (= (data :userid) (post :user_id)) (do
+                                                         (pdb/delete! (Long/valueOf id))
+                                                         {:code 200 :status "ok" :message "delete success"})
+                    (not= (data :userid) (post :user_id)) {:code 200 :status "error" :message "not nide"}
+                    (= post nil) {:code 200 :status "error" :messages "post not cunzai"}))
+                {:code 200 :status "error" :message "not login"}))))
+
+
 (defn update!
   ""
   {:arglists '([title content id])}

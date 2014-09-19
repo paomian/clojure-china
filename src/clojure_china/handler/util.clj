@@ -40,6 +40,13 @@
     (if (valid-number? pages)
       (Long/valueOf pages))))
 
+(defn wrap-json [handler content-type]
+  (fn [request]
+    (let [response (handler request)]
+      (if (not= (:status response) 404)
+          (assoc-in response [:headers "Content-Type"] content-type)
+        response))))
+
 ;;todo 写一个wrap handler 来验证用户的权限 重构权限管理的所有模块
 
 #_(defmacro with-validations
@@ -115,3 +122,5 @@
                 (session/flash-put! :user user)
                 (session/flash-put! :email email)
                 (flash-error "/register" why)))))
+
+(defn a )

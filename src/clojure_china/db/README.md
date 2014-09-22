@@ -4,7 +4,7 @@
 - It is look like this
 
 ```clojure
-(ns clojure-china.model.dbconn)
+(ns clojure-china.db.dbconn)
 
 (def db-name "your db name")
 (def db-user "your db user")
@@ -22,7 +22,7 @@
 - It is loo like this
 
 ```clojure
-(ns clojure-china.model.redis)
+(ns clojure-china.db.redis)
 
 
 (def session-conn {:pool {} :spec {:host       "127.0.0.1" :port 6379

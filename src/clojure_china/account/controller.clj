@@ -8,6 +8,7 @@
             [clojure-china.account.model :as adb])
   (:import [org.jasypt.util.password StrongPasswordEncryptor]))
 
+
 (def okmsg {
              :logout           "注销成功"
              :login-success    "恭喜您，登录成功"
@@ -128,12 +129,13 @@
               (msg :other))
             (msg :name-existd))])
     (-> {}
-        (fn [map] (if (adb/check-name username)
+        (fn [m] (if (adb/check-name username)
                     (if (adb/create! username (encryptor password) email)
-                      (assoc map :status (status :ok)
+                      (assoc m :status (status :ok)
                                  :message (msg :register-success))
-                      (assoc map :status (status :ok)
+                      (assoc m :status (status :error)
                                  :message (msg :other)))
-                    (assoc map :status (status :ok)
+                    (assoc m :status (status :error)
                                :message (msg :name-existd))))
-        (fn [map] (assoc map :code (code :ok)))))
+        (fn [m] (assoc m :code (if (= (status :ok) (m :status))
+                                 ())))))

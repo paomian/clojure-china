@@ -33,7 +33,7 @@
 
 Step 1: Create a file named dbconn.clj under src/clojure_china/dbutil with the content as stated **[this](https://github.com/paomian/clojure-china/tree/paomian/src/clojure_china/dbutil)**, and create a local postgres database named clojure_china.
 
-Step 2: run`lein repl`in the path which is project root path,and run`((use 'lobos.core 'lobos.connectivity 'lobos.migration 'lobos.migrations))` then `(migrate)` 
+Step 2: run`lein repl`in the path which is project root path,and run`(use 'lobos.core 'lobos.connectivity 'lobos.migration 'lobos.migrations)` then `(migrate)` 
 
 ## Running
 

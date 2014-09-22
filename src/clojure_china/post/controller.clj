@@ -111,13 +111,14 @@
       (assoc :message "id error"))))
 
 (defn delete!
+  ""
   {:arglists '([id])}
   [^String id]
   (-> {}
-      (fn [m] (if-let [user (session/get :userid)]
+       ((fn [m] (if-let [user (session/get :userid)]
                 (assoc m :status {:userid user})
-                (assoc m :error {:message (emsg :not-login)})))
-      (fn [m] (if-let [data (get m :status)]
+                (assoc m :error {:message (emsg :not-login)}))))
+       ((fn [m] (if-let [data (get m :status)]
                 (let [post (pdb/id id)]
                   (cond
                     (= (data :userid) (post :user_id)) (do
@@ -125,7 +126,7 @@
                                                          {:code 200 :status "ok" :message "delete success"})
                     (not= (data :userid) (post :user_id)) {:code 200 :status "error" :message "not nide"}
                     (= post nil) {:code 200 :status "error" :messages "post not cunzai"}))
-                {:code 200 :status "error" :message "not login"}))))
+                {:code 200 :status "error" :message "not login"})))))
 
 
 (defn update!

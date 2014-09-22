@@ -122,5 +122,3 @@
                 (session/flash-put! :user user)
                 (session/flash-put! :email email)
                 (flash-error "/register" why)))))
-
-(defn a )
